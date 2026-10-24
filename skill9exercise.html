@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 9 - Noun Clause (25 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-purple-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-purple-700 text-purple-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 9: Noun Clause Analysis</h1>
+                <p class="text-purple-200 text-sm">25 Soal Interaktif (Analisis Fungsi, Structure Error, & Subjunctive NC)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-purple-800 border border-purple-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-purple-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 25</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">🧩</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 9 (Noun Clause)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman Anda tentang susunan <em>Noun Clause</em> (pola utama <code>conj + S + V</code>), variasi posisi (Subject, Object, Obj of Prep, Complement), penghilangan kata <em>that</em>, serta aturan khusus <em>Subjunctive Noun Clause</em> yang mewajibkan Bare Verb (V1).
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 25 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Pola Utama Noun Clause (Conj + S + V)</li>
+                    <li>Posisi Noun Clause (Subject, Object, Obj of Prep, Complement)</li>
+                    <li>Variasi Conjunction (Question Words, That, If/Whether)</li>
+                    <li>Aturan Khusus Subjunctive Noun Clause (Bare Verb V1)</li>
+                    <li>Pilihan Jawaban: A, B, C, D, E</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-purple-600 font-bold">1</span> dari <span id="total-q-num">25</span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-purple-100 text-purple-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-purple-600 h-2.5 rounded-full transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Pembahasan Tata Bahasa</span>
+                    </div>
+                    <p id="explanation-text" class="text-slate-700 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 25 Soal TOEFL Skill 9: Noun Clause Analysis.
+            </p>
+            <div class="inline-block bg-purple-50 border border-purple-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-purple-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 25</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; 2026 TOEFL Preparation • Skill 9: Noun Clause Analysis
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            {
+                questionNumber: 1,
+                type: "Analisis Posisi Noun Clause",
+                category: "NC as Complement",
+                question: "Perhatikan kalimat berikut:<br><br><strong>'The main issue is why the project was delayed.'</strong><br><br>Klausa <em>'why the project was delayed'</em> berposisi setelah linking verb <em>'is'</em>. Fungsi klausa tersebut adalah sebagai:",
+                answerOptions: [
+                    { text: "Subject dari kalimat utama", isCorrect: false },
+                    { text: "Object of Preposition", isCorrect: false },
+                    { text: "Subject Complement dari kata benda 'The main issue'", isCorrect: true, rationale: "Benar! Klausa yang terletak setelah linking verb (seperti 'is', 'was', 'becomes') dan menjelaskan subjek disebut Noun Clause as Complement." },
+                    { text: "Direct Object dari kata kerja aksi", isCorrect: false },
+                    { text: "Adverbial Clause of Reason", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Analisis Posisi Noun Clause",
+                category: "NC as Obj of Prep",
+                question: "Perhatikan kalimat berikut:<br><br><strong>'The documentary focuses on who is responsible for the deforestation.'</strong><br><br>Klausa <em>'who is responsible for the deforestation'</em> berfungsi sebagai Noun Clause <em>Object of Preposition</em> karena diletakkan secara langsung setelah kata apa?",
+                answerOptions: [
+                    { text: "Kata benda 'documentary'", isCorrect: false },
+                    { text: "Kata kerja 'focuses'", isCorrect: false },
+                    { text: "Preposisi 'on'", isCorrect: true, rationale: "Benar! Klausa diletakkan langsung setelah preposisi 'on' (focuses on...), sehingga berfungsi sebagai Noun Clause as Object of Preposition." },
+                    { text: "Kata sifat 'responsible'", isCorrect: false },
+                    { text: "Kata benda 'deforestation'", isCorrect: false }
+                ]
+            },
+            // SOAL DARI MATERI 1 (No. 3)
+            {
+                questionNumber: 3,
+                type: "Analisis Posisi Noun Clause",
+                category: "NC as Object",
+                question: "Perhatikan kalimat berikut:<br><br><strong>'I don't know where Hasfa is.'</strong><br><br>Fungsi dari klausa <em>'where Hasfa is'</em> dalam kalimat di atas adalah sebagai:",
+                answerOptions: [
+                    { text: "Subject dari kalimat utama", isCorrect: false },
+                    { text: "Object of Verb dari kata kerja 'don't know'", isCorrect: true, rationale: "Benar! Klausa 'where Hasfa is' berposisi langsung setelah transitive verb 'don't know', sehingga berfungsi sebagai Noun Clause as Object." },
+                    { text: "Object of Preposition dari kata 'don't'", isCorrect: false },
+                    { text: "Complement dari linking verb", isCorrect: false },
+                    { text: "Adjective Clause yang menerangkan 'I'", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Structure Completion",
+                category: "NC as Subject",
+                question: "Lengkapilah bagian kosong agar membentuk Noun Clause yang benar sebagai Subject:<br><br>_____ the new policy will take effect next month is already well known to the staff.",
+                answerOptions: [
+                    { text: "That", isCorrect: true, rationale: "Benar! Konjungsi 'That' digunakan untuk membentuk Noun Clause sebagai subjek kalimat ('That the new policy will take effect...') yang diikuti verb utama 'is'." },
+                    { text: "Which", isCorrect: false, rationale: "Salah. 'Which' digunakan untuk pilihan atau Adjective Clause." },
+                    { text: "What that", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." },
+                    { text: "Where that", isCorrect: false, rationale: "Salah. Penumpukan konjungsi." },
+                    { text: "Because", isCorrect: false, rationale: "Salah. 'Because' membentuk Adverbial Clause, bukan Noun Clause as Subject." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Omitting Conjunction",
+                category: "NC as Object",
+                question: "Perhatikan dua kalimat berikut:<br>1. <em>'I know that the university is located in the center of the city.'</em><br>2. <em>'I know the university is located in the center of the city.'</em><br><br>Mengapa konjungsi <strong>'that'</strong> pada kalimat kedua boleh dihilangkan (*omitted*)?",
+                answerOptions: [
+                    { text: "Karena kata 'that' selalu tidak penting dalam tata bahasa Inggris.", isCorrect: false },
+                    { text: "Karena konjungsi 'that' pada Noun Clause yang berfungsi sebagai Objek dapat ditiadakan tanpa mengubah makna kalimat.", isCorrect: true, rationale: "Benar! Khusus pada Noun Clause yang berposisi sebagai Object dari kata kerja (seperti 'know that...'), kata sambung 'that' opsional untuk dituliskan atau dihilangkan." },
+                    { text: "Karena kata 'university' merupakan nama tempat spesifik.", isCorrect: false },
+                    { text: "Karena kalimat tersebut adalah kalimat pasif.", isCorrect: false },
+                    { text: "Karena kata kerja 'know' adalah modal auxiliary.", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 6,
+                type: "Structure Completion",
+                category: "NC as Object",
+                question: "Lengkapilah bagian kosong berikut:<br><br>The researcher explained _____ the new economic policy would affect local businesses.",
+                answerOptions: [
+                    { text: "how", isCorrect: true, rationale: "Benar! Question word 'how' berfungsi sebagai konjungsi Noun Clause sebagai objek dari verb 'explained'." },
+                    { text: "about how", isCorrect: false, rationale: "Salah. Verb 'explain' langsung mengambil direct object tanpa preposisi 'about'." },
+                    { text: "that how", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." },
+                    { text: "of how", isCorrect: false, rationale: "Salah. Preposisi tidak diperlukan." },
+                    { text: "which how", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Structure Completion",
+                category: "NC as Obj of Prep",
+                question: "Lengkapilah bagian kosong berikut:<br><br>The board was divided on the question of _____ should be appointed as the managing director.",
+                answerOptions: [
+                    { text: "who", isCorrect: true, rationale: "Benar! Konjungsi 'who' bertindak sekaligus sebagai subjek di dalam Noun Clause setelah preposisi 'of'." },
+                    { text: "whom he", isCorrect: false, rationale: "Salah. Redundansi pronoun 'he'." },
+                    { text: "that who", isCorrect: false, rationale: "Salah. Penumpukan konjungsi." },
+                    { text: "whose", isCorrect: false, rationale: "Salah. 'whose' memerlukan kata benda setelahnya." },
+                    { text: "which he", isCorrect: false, rationale: "Salah. Struktur tidak tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>I <u>do not know</u> (A) <u>where</u> (B) <u>is the professor</u> (C) conducting <u>his research</u> (D) this afternoon (E).",
+                answerOptions: [
+                    { text: "do not know", isCorrect: false, rationale: "Verb utama Present Tense sudah tepat." },
+                    { text: "where", isCorrect: false, rationale: "Conjunction Noun Clause sudah tepat." },
+                    { text: "is the professor", isCorrect: true, rationale: "Benar! Pilihan C salah. Susunan Noun Clause HARUS mengikuti pola pernyataan (Conj + S + V), bukan susunan pertanyaan (Inversi Verb + Subjek). Seharusnya 'where the professor is'." },
+                    { text: "his research", isCorrect: false, rationale: "Noun phrase objek sudah tepat." },
+                    { text: "this afternoon", isCorrect: false, rationale: "Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The students <u>asked</u> (A) the instructor <u>whether</u> (B) <u>did they need</u> (C) <u>to submit</u> (D) the draft today (E).",
+                answerOptions: [
+                    { text: "asked", isCorrect: false, rationale: "Verb utama past tense sudah tepat." },
+                    { text: "whether", isCorrect: false, rationale: "Conjunction Noun Clause ya/tidak sudah tepat." },
+                    { text: "did they need", isCorrect: true, rationale: "Benar! Pilihan C salah. Setelah kata hubung 'whether', Noun Clause harus berstruktur positif (S + V), bukan inversi kalimat tanya ('did they need'). Bentuk yang benar adalah 'whether they needed'." },
+                    { text: "to submit", isCorrect: false, rationale: "To-infinitive objek dari need sudah tepat." },
+                    { text: "today", isCorrect: false, rationale: "Adverb of time sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The main issue <u>is</u> (A) <u>why did the committee</u> (B) <u>cancel</u> (C) the annual conference <u>without warning</u> (D) last week (E).",
+                answerOptions: [
+                    { text: "is", isCorrect: false, rationale: "Linking verb utama sudah tepat." },
+                    { text: "why did the committee", isCorrect: true, rationale: "Benar! Pilihan B salah. Klausa setelah 'is' adalah Noun Clause as Complement. Struktur Noun Clause wajib berbentuk (Conj + S + V) yaitu 'why the committee canceled', bukan 'why did the committee'." },
+                    { text: "cancel", isCorrect: false, rationale: "Bentuk verb bermasalah karena auxiliary did." },
+                    { text: "without warning", isCorrect: false, rationale: "Prepositional phrase sudah tepat." },
+                    { text: "last week", isCorrect: false, rationale: "Keterangan waktu lampau sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Structure Completion",
+                category: "Pola Conj + S + V",
+                question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>Can you explain to me _____ to solve this complex equation?",
+                answerOptions: [
+                    { text: "how I can get", isCorrect: true, rationale: "Benar! Susunan Noun Clause yang benar adalah Conjunction (how) + Subject (I) + Verb (can get)." },
+                    { text: "how can I get", isCorrect: false, rationale: "Salah. Ini adalah struktur pertanyaan ter-inversi." },
+                    { text: "how to get I", isCorrect: false, rationale: "Salah. Penempatan pronoun salah." },
+                    { text: "that how I get", isCorrect: false, rationale: "Salah. Penumpukan konjungsi 'that how'." },
+                    { text: "how do I get", isCorrect: false, rationale: "Salah. Struktur pertanyaan ter-inversi." }
+                ]
+            },
+            // SOAL DARI MATERI 2 (No. 12)
+            {
+                questionNumber: 12,
+                type: "Analisis Posisi Noun Clause",
+                category: "NC as Subject",
+                question: "Perhatikan kalimat berikut:<br><br><strong>'What he said about Wahhabi lingkungan shocked everyone.'</strong><br><br>Manakah bagian yang bertindak sebagai <em>Subject</em> dari verb utama <em>'shocked'</em>?",
+                answerOptions: [
+                    { text: "What he said about Wahhabi lingkungan", isCorrect: true, rationale: "Benar! Seluruh frasa klausa 'What he said about Wahhabi lingkungan' terletak sebelum verb utama 'shocked', sehingga bertindak sebagai Noun Clause as Subject." },
+                    { text: "Wahhabi lingkungan", isCorrect: false },
+                    { text: "he said", isCorrect: false },
+                    { text: "everyone", isCorrect: false },
+                    { text: "What he said", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Structure Completion",
+                category: "If / Whether",
+                question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The supervisor wants to know _____ the team will finish the audit report by Monday.",
+                answerOptions: [
+                    { text: "whether", isCorrect: true, rationale: "Benar! 'whether' (atau 'if') digunakan sebagai konjungsi Noun Clause untuk menyatakan makna 'apakah' (pilihan ya/tidak)." },
+                    { text: "that whether", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." },
+                    { text: "what if", isCorrect: false, rationale: "Salah. Makna pengandaian tidak sesuai konteks." },
+                    { text: "which", isCorrect: false, rationale: "Salah. 'which' membutuhkan pilihan benda spesifik." },
+                    { text: "that", isCorrect: false, rationale: "Salah. 'that' menyatakan kepastian ('bahwa'), bukan pertanyaan ya/tidak." }
+                ]
+            },
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>That he will attend</u> (A) the conference <u>depends on</u> (B) <u>if</u> (C) he <u>obtains</u> (D) his travel permit (E).",
+                answerOptions: [
+                    { text: "That he will attend", isCorrect: false, rationale: "Noun Clause as Subject sudah tepat." },
+                    { text: "depends on", isCorrect: false, rationale: "Verb phrase berpreposisi 'on' sudah tepat." },
+                    { text: "if", isCorrect: true, rationale: "Benar! Pilihan C salah. Dalam standar Bahasa Inggris formal (seperti TOEFL), konjungsi Noun Clause yang diletakkan langsung setelah PREPOSISI ('depends on...') harus menggunakan 'whether', bukan 'if'." },
+                    { text: "obtains", isCorrect: false, rationale: "Verb present tense sudah tepat." },
+                    { text: "his travel permit", isCorrect: false, rationale: "Noun phrase objek sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Structure Completion",
+                category: "What vs That",
+                question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>_____ surprised the entire panel was his extensive knowledge of medieval history.",
+                answerOptions: [
+                    { text: "What", isCorrect: true, rationale: "Benar! 'What' bertindak sebagai konjungsi sekaligus subjek di dalam Noun Clause ('What surprised the entire panel')." },
+                    { text: "That", isCorrect: false, rationale: "Salah. 'That' memerlukan subjek baru setelahnya." },
+                    { text: "Which", isCorrect: false, rationale: "Salah. Digunakan untuk Adjective Clause." },
+                    { text: "Where", isCorrect: false, rationale: "Salah. Menunjukkan tempat." },
+                    { text: "Because", isCorrect: false, rationale: "Salah. Menunjukkan alasan." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Structure Completion",
+                category: "NC as Complement",
+                question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The primary concern among the board members was _____ the company lacked sufficient capital.",
+                answerOptions: [
+                    { text: "that", isCorrect: true, rationale: "Benar! 'that' menghubungkan Noun Clause sebagai Complement setelah linking verb 'was'." },
+                    { text: "what", isCorrect: false, rationale: "Salah. 'what' bertindak sebagai objek/subjek klausa, padahal klausa di belakang sudah lengkap S+V+O." },
+                    { text: "which", isCorrect: false, rationale: "Salah. Tidak ada noun yang dijelaskan secara relatif." },
+                    { text: "because of", isCorrect: false, rationale: "Salah. Preposisi tidak dapat diikuti klausa S+V." },
+                    { text: "where that", isCorrect: false, rationale: "Salah. Penumpukan konjungsi." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Subjunctive Structure",
+                category: "Subjunctive Rule",
+                question: "Manakah kalimat berikut yang menggunakan aturan <em>Subjunctive Noun Clause</em> yang BENAR?",
+                answerOptions: [
+                    { text: "The doctor recommended that the patient stays in bed for three days.", isCorrect: false },
+                    { text: "The doctor recommended that the patient stay in bed for three days.", isCorrect: true, rationale: "Benar! Kata pemicu 'recommended that' mewajibkan kata kerja dalam Noun Clause berbentuk Bare Verb V1 dasar ('stay'), bukan V+s ('stays')." },
+                    { text: "The doctor recommended that the patient stayed in bed for three days.", isCorrect: false },
+                    { text: "The doctor recommended that the patient is stay in bed for three days.", isCorrect: false },
+                    { text: "The doctor recommended that the patient to stay in bed for three days.", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 18,
+                type: "Error Analysis (Subjunctive)",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>It <u>is essential</u> (A) that every candidate <u>submits</u> (B) <u>his or her</u> (C) application <u>before</u> (D) 5 PM (E).",
+                answerOptions: [
+                    { text: "is essential", isCorrect: false, rationale: "Pemicu Subjunctive Clause 'essential' sudah tepat." },
+                    { text: "submits", isCorrect: true, rationale: "Benar! Pilihan B salah. Kata sifat 'essential' memicu Subjunctive Noun Clause setelah kata 'that'. Oleh karena itu, kata kerja harus berupa Bare Verb V1 dasar 'submit', bukan 'submits'." },
+                    { text: "his or her", isCorrect: false, rationale: "Possessive pronoun singular sudah tepat." },
+                    { text: "before", isCorrect: false, rationale: "Preposisi waktu sudah tepat." },
+                    { text: "5 PM", isCorrect: false, rationale: "Adverb of time sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Error Analysis (Subjunctive)",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The committee <u>demanded</u> (A) that the member <u>apologizes</u> (B) <u>for</u> (C) <u>the violation</u> (D) immediately (E).",
+                answerOptions: [
+                    { text: "demanded", isCorrect: false, rationale: "Verb pemicu Subjunctive 'demanded' sudah tepat." },
+                    { text: "apologizes", isCorrect: true, rationale: "Benar! Pilihan B salah. Kata kerja pemicu tuntutan 'demanded that...' mewajibkan klausa setelahnya menggunakan Bare Verb V1 dasar. Seharusnya 'apologize', bukan 'apologizes'." },
+                    { text: "for", isCorrect: false, rationale: "Preposisi setelah apologize sudah tepat." },
+                    { text: "the violation", isCorrect: false, rationale: "Noun phrase objek preposisi sudah tepat." },
+                    { text: "immediately", isCorrect: false, rationale: "Adverb of time sudah tepat." }
+                ]
+            },
+            // SOAL DARI MATERI 3 (No. 20)
+            {
+                questionNumber: 20,
+                type: "Subjunctive Structure",
+                category: "Subjunctive Rule",
+                question: "Perhatikan kalimat berikut:<br><br><strong>'It is important that every student have to pass TOEFL test.'</strong><br><br>Mengapa kata kerja setelah subjek tunggal <em>'every student'</em> menggunakan <strong>'have'</strong> (bukan <em>'has'</em>)?",
+                answerOptions: [
+                    { text: "Karena kata 'every student' bernilai jamak (plural).", isCorrect: false },
+                    { text: "Karena kalimat ini menggunakan struktur Subjunctive Noun Clause yang dipicu oleh kata penanda 'important', sehingga verb setelah 'that' WAJIB berbentuk Bare Verb / V1 dasar ('have').", isCorrect: true, rationale: "Benar! Jika 'that' menghubungkan indikasi sesuatu yang penting/saran/tuntutan (*important, suggest, demand, require, dll.*), maka verb setelah 'that' harus berupa Bare Verb V1 dasar ('have'), meskipun subjeknya tunggal." },
+                    { text: "Karena kata 'TOEFL test' adalah kata benda tak terhitung.", isCorrect: false },
+                    { text: "Karena terdapat kesalahan cetak pada kalimat tersebut.", isCorrect: false },
+                    { text: "Karena kata 'that' berfungsi sebagai kata tunjuk plural.", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 21,
+                type: "Subjunctive Completion",
+                category: "Subjunctive Rule",
+                question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>It is imperative that the government _____ prompt measures to address inflation.",
+                answerOptions: [
+                    { text: "take", isCorrect: true, rationale: "Benar! Pemicu 'imperative that' memerlukan Bare Verb V1 dasar ('take') tanpa tambahan -s/-es meskipun subjeknya 'the government'." },
+                    { text: "takes", isCorrect: false, rationale: "Salah. 'takes' bukan bentuk Bare Verb." },
+                    { text: "took", isCorrect: false, rationale: "Salah. 'took' adalah V2." },
+                    { text: "is taking", isCorrect: false, rationale: "Salah. Continuous tense tidak digunakan untuk Subjunctive standar." },
+                    { text: "has taken", isCorrect: false, rationale: "Salah. Perfect tense tidak tepat." }
+                ]
+            },
+            {
+                questionNumber: 22,
+                type: "Subjunctive Negative",
+                category: "Subjunctive Rule",
+                question: "Manakah bentuk <strong>NEGATIF</strong> yang benar untuk Subjunctive Noun Clause pada kalimat berikut?<br><br><em>'The officer requested that the visitor _____ entering the security zone.'</em>",
+                answerOptions: [
+                    { text: "does not", isCorrect: false },
+                    { text: "not", isCorrect: true, rationale: "Benar! Bentuk negatif dari Subjunctive Noun Clause adalah langsung menambahkan kata 'not' sebelum Bare Verb V1 dasar ('not enter'), tanpa kata bantu *does not / do not / did not*." },
+                    { text: "did not", isCorrect: false },
+                    { text: "is not", isCorrect: false },
+                    { text: "will not", isCorrect: false }
+                ]
+            },
+            {
+                questionNumber: 23,
+                type: "Subjunctive Passive",
+                category: "Subjunctive Rule",
+                question: "Lengkapilah bagian kosong dengan bentuk **PASIF** Subjunctive Noun Clause yang tepat:<br><br>The director proposed that the meeting _____ until next Tuesday.",
+                answerOptions: [
+                    { text: "be postponed", isCorrect: true, rationale: "Benar! Bentuk pasif Subjunctive Noun Clause adalah Bare Verb dari to be ('be') + Past Participle V3 ('postponed'), sehingga menjadi 'be postponed'." },
+                    { text: "is postponed", isCorrect: false, rationale: "Salah. 'is' bukan bentuk Bare Verb dari to be." },
+                    { text: "was postponed", isCorrect: false, rationale: "Salah. 'was' bukan bentuk dasar Bare Verb." },
+                    { text: "to be postponed", isCorrect: false, rationale: "Salah. To-infinitive tidak digunakan setelah kata 'that'." },
+                    { text: "will be postponed", isCorrect: false, rationale: "Salah. Modal auxiliary 'will' dihindari dalam Subjunctive standar." }
+                ]
+            },
+            {
+                questionNumber: 24,
+                type: "Error Analysis",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>What did the speaker</u> (A) presented <u>during the seminar</u> (B) <u>inspired</u> (C) many young researchers <u>in the field</u> (D) of linguistics (E).",
+                answerOptions: [
+                    { text: "What did the speaker", isCorrect: true, rationale: "Benar! Pilihan A salah. Noun Clause sebagai subjek harus berpola Conj + S + V ('What the speaker presented'), bukan pola inversi pertanyaan ('What did the speaker')." },
+                    { text: "during the seminar", isCorrect: false, rationale: "Prepositional phrase waktu sudah tepat." },
+                    { text: "inspired", isCorrect: false, rationale: "Verb utama past tense sudah tepat." },
+                    { text: "in the field", isCorrect: false, rationale: "Prepositional phrase bidang sudah tepat." },
+                    { text: "of linguistics", isCorrect: false, rationale: "Noun phrase objek preposisi sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 25,
+                type: "Rangkuman Konsep Skill 9",
+                category: "Rangkuman",
+                question: "Berdasarkan seluruh materi Skill 9, manakah kesimpulan berikut yang **PALING TEPAT** mengenai Noun Clause?",
+                answerOptions: [
+                    { text: "Noun Clause adalah klausa yang selalu diawali oleh kata sambung FANBOYS.", isCorrect: false },
+                    { text: "Noun Clause berfungsi seperti kata benda (bisa menjadi Subject, Object, Obj of Prep, atau Complement), berpola utama <code>conj + S + V</code>, dan menggunakan Bare Verb V1 jika didahului klausa penanda Subjunctive.", isCorrect: true, rationale: "Benar! Rangkuman utuh Skill 9: Noun Clause berfungsi sebagai noun (Subject, Object, Obj of Prep, Complement), berpola baku Conj + S + V, dan wajib memakai V1 Bare Verb untuk ungkapan Subjunctive (penting/saran/tuntutan)." },
+                    { text: "Noun Clause selalu dapat dihilangkan kata sambungnya dalam posisi apa pun.", isCorrect: false },
+                    { text: "Noun Clause wajib menggunakan pola kalimat tanya ter-inversi setelah Question Word.", isCorrect: false },
+                    { text: "Noun Clause hanya terdiri dari satu kata benda tunggal tanpa kata kerja.", isCorrect: false }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-purple-50 border-purple-300 text-purple-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-purple-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            const correctOpt = q.answerOptions.find(opt => opt.isCorrect);
+            explanationTextEl.innerHTML = correctOpt.rationale;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 25`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
