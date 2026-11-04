@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 15 - Inversion after Negative Expression (20 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-rose-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-rose-700 text-rose-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 15: Inversion after Negative Expression</h1>
+                <p class="text-rose-200 text-sm">20 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-rose-800 border border-rose-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-rose-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 20</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">⛔</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 15 (Inversion after Negative Expression)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman tentang inversi setelah ekspresi negatif atau semi-negatif di awal kalimat.
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 20 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Conceptual Analysis, Error Analysis, & Complete the Blank</li>
+                    <li>Kunci Jawaban Tersebar Merata (A, B, C, D, E)</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-rose-600 font-bold">1</span> dari <span id="total-q-num">20</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-rose-600 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed"></div>
+
+                <div id="options-container" class="space-y-3"></div>
+
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 20 Soal Skill 15: Inversion after Negative Expressions.
+            </p>
+            <div class="inline-block bg-rose-50 border border-rose-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-rose-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 20</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; LUMINA PROJECT • 2026 TOEFL Preparation • Skill 15: Inversion after Negative Expression
+    </footer>
+
+    <!-- Script Quiz Logic (Distributed Answers across A, B, C, D, E) -->
+    <script>
+        const questionsData = [
+            // Soal 1 (Kunci: B - Indeks 1)
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Prinsip Dasar Inversi Negatif",
+                difficulty: "Mudah",
+                question: "Apa aturan struktur yang wajib diterapkan ketika sebuah ekspresi bermakna negatif atau semi-negatif diletakkan di <strong>awal kalimat</strong> untuk penekanan (<em>emphasis</em>)?",
+                answerOptions: [
+                    { text: "Main verb langsung dipindah ke depan subject tanpa auxiliary.", isCorrect: false, explanation: "Salah. Itu adalah aturan inversi tempat (place), bukan inversi negatif." },
+                    { text: "Kalimat tersebut wajib mengalami inversi dengan pola Auxiliary + Subject + Verb (mirip kalimat tanya).", isCorrect: true, explanation: "Benar! Penempatan ekspresi negatif di awal kalimat mewajibkan inversi dengan menempatkan auxiliary sebelum subject." },
+                    { text: "Kalimat diubah menjadi passive voice sepenuhnya.", isCorrect: false, explanation: "Salah. Tidak mengubah active/passive voice." },
+                    { text: "Konjungsi subordinatif wajib ditambahkan di awal kalimat.", isCorrect: false, explanation: "Salah. Tidak memerlukan konjungsi tambahan." },
+                    { text: "Subjek kalimat wajib diubah menjadi pronoun di akhir.", isCorrect: false, explanation: "Salah. Posisi subjek tetap berada di antara auxiliary dan main verb." }
+                ]
+            },
+            // Soal 2 (Kunci: C - Indeks 2)
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Perbedaan Inversi Tempat dan Negatif",
+                difficulty: "Mudah",
+                question: "Bagaimanakah perbedaan utama antara pola inversi setelah ekspresi tempat (<em>Inversion after Place</em>) dengan inversi setelah ekspresi negatif (<em>Inversion after Negative Expression</em>)?",
+                answerOptions: [
+                    { text: "Inversi negatif melarang penggunaan subject di awal.", isCorrect: false, explanation: "Salah. Subject tetap ada di antara aux dan verb." },
+                    { text: "Inversi tempat memerlukan kata tanya WH-word.", isCorrect: false, explanation: "Salah. Inversi tempat menggunakan preposisi tempat." },
+                    { text: "Inversi tempat memindahkan main verb langsung ke depan subject tanpa aux, sedangkan inversi negatif menggunakan auxiliary sebelum subject.", isCorrect: true, explanation: "Benar! Inversi tempat menggunakan main verb langsung (is, sat, stood), sementara inversi negatif menggunakan auxiliary (do, does, did, have, modal) sebelum subject." },
+                    { text: "Tidak ada perbedaan struktur sama sekali di antara keduanya.", isCorrect: false, explanation: "Salah. Perbedaan penggunaan auxiliary sangat jelas." },
+                    { text: "Inversi negatif hanya berlaku untuk kalimat nominal.", isCorrect: false, explanation: "Salah. Berlaku luas untuk kalimat verbal dan nominal." }
+                ]
+            },
+            // Soal 3 (Kunci: D - Indeks 3)
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Pure Negative Classification",
+                difficulty: "Sedang",
+                question: "Manakah kelompok kata berikut yang diklasifikasikan sebagai <em>Pure Negative Expressions</em> yang memicu inversi di awal kalimat?",
+                answerOptions: [
+                    { text: "Always, usually, frequently, commonly.", isCorrect: false, explanation: "Salah. Itu adalah adverb of frequency positif." },
+                    { text: "Because, although, whereas, since.", isCorrect: false, explanation: "Salah. Itu adalah conjunctions." },
+                    { text: "In, on, at, behind, under.", isCorrect: false, explanation: "Salah. Itu adalah prepositions of place." },
+                    { text: "Never, rarely, seldom, scarcely, barely, hardly.", isCorrect: true, explanation: "Benar! Kata-kata tersebut menyatakan frekuensi negatif/jarang dan wajib memicu inversi jika berada di awal kalimat." },
+                    { text: "What, where, when, why, how.", isCorrect: false, explanation: "Salah. Itu adalah WH-words." }
+                ]
+            },
+            // Soal 4 (Kunci: E - Indeks 4)
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Not Only Structure",
+                difficulty: "Sedang",
+                question: "Bagaimanakah pola inversi yang benar pada klausa pertama ketika menggunakan ekspresi restriktif <strong>Not only... but also</strong> di awal kalimat?",
+                answerOptions: [
+                    { text: "Kedua klausa wajib mengalami inversi total.", isCorrect: false, explanation: "Salah. Hanya klausa pertama yang diinversi." },
+                    { text: "Tidak boleh ada auxiliary pada klausa pertama.", isCorrect: false, explanation: "Salah. Auxiliary wajib ada." },
+                    { text: "Not only diletakkan di akhir kalimat.", isCorrect: false, explanation: "Salah. Not only berada di awal klausa." },
+                    { text: "Kalimat diubah menjadi bentuk tanya langsung berakhiran tanda tanya.", isCorrect: false, explanation: "Salah. Kalimat tetap berbentuk pernyataan." },
+                    { text: "Not only + auxiliary + subject + verb (klausa pertama diinversi, sedangkan klausa kedua normal).", isCorrect: true, explanation: "Benar! Hanya klausa pertama yang diawali Not only yang mengalami inversi, sementara klausa setelah but also tetap berstruktur normal." }
+                ]
+            },
+            // Soal 5 (Kunci: A - Indeks 0)
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Under No Circumstances Rule",
+                difficulty: "Sulit",
+                question: "Mengapa kalimat yang diawali dengan frasa <em>'Under no circumstances'</em> wajib diikuti oleh modal auxiliary atau auxiliary verb sebelum subjek?",
+                answerOptions: [
+                    { text: "Karena frasa tersebut mengandung makna negatif mutlak yang memicu inversi penekanan di awal kalimat.", isCorrect: true, explanation: "Benar! Frasa seperti 'Under no circumstances' berfungsi sebagai negative expression yang mewajibkan inversi." },
+                    { text: "Karena frasa tersebut berfungsi sebagai keterangan tempat permanen.", isCorrect: false, explanation: "Salah. Ini adalah ekspresi kondisi negatif, bukan tempat." },
+                    { text: "Karena subjek kalimat harus berupa pronoun.", isCorrect: false, explanation: "Salah. Subjek bebas berupa noun atau pronoun." },
+                    { text: "Karena kata kerja utamanya harus berbentuk gerund.", isCorrect: false, explanation: "Salah. Mengikuti aturan modal/auxiliary." },
+                    { text: "Karena kalimat tersebut merupakan kalimat perintah langsung.", isCorrect: false, explanation: "Salah. Ini adalah pernyataan penekanan." }
+                ]
+            },
+            // Soal 6 (Kunci: B - Indeks 1)
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Never Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Never <u>I have</u> (A) heard <u>such an inspiring</u> (B) lecture on ethnopragmatics <u>delivered</u> (C) by <u>the visiting professor</u> (D) yesterday morning (E).",
+                answerOptions: [
+                    { text: "such an inspiring", isCorrect: false, explanation: "Salah. Adjective phrase sudah tepat." },
+                    { text: "I have", isCorrect: true, explanation: "Benar! Pilihan A salah. Setelah 'Never' di awal kalimat, susunan harus diinversi menjadi auxiliary sebelum subject ('Have I'), bukan 'I have'." },
+                    { text: "delivered", isCorrect: false, explanation: "Salah. Reduced adjective clause sudah tepat." },
+                    { text: "the visiting professor", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 7 (Kunci: C - Indeks 2)
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Seldom Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Seldom <u>Dr. Mila cancels</u> (A) <u>the syntax lecture</u> (B) without giving <u>prior notice</u> (C) to <u>the PIBI students</u> (D) in class (E).",
+                answerOptions: [
+                    { text: "the syntax lecture", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "prior notice", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "Dr. Mila cancels", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Seldom' di awal kalimat wajib diinversi. Karena menggunakan present tense tanpa auxiliary, bantuan 'does' diperlukan ('Seldom does Dr. Mila cancel...')." },
+                    { text: "the PIBI students", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 8 (Kunci: D - Indeks 3)
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Under No Circumstances Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Under no circumstances <u>the students should</u> (A) <u>cheat</u> (B) during <u>the TOEFL test</u> (C) administered <u>by the center</u> (D) last week (E).",
+                answerOptions: [
+                    { text: "cheat", isCorrect: false, explanation: "Salah. Verb dasar setelah modal sudah tepat." },
+                    { text: "the TOEFL test", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "by the center", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "the students should", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Under no circumstances' di awal kalimat wajib diinversi menjadi modal auxiliary sebelum subject ('should the students')." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 9 (Kunci: E - Indeks 4)
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "Not Only Inversion Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Not only <u>Rachma is</u> (A) traveling abroad, but <u>he is also studying</u> (B) language acquisition <u>at the university</u> (C) <u>this semester</u> (D) in Malang (E).",
+                answerOptions: [
+                    { text: "he is also studying", isCorrect: false, explanation: "Salah. Klausa kedua setelah 'but also' tetap normal." },
+                    { text: "at the university", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "this semester", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." },
+                    { text: "Rachma is", isCorrect: true, explanation: "Benar! Pilihan A salah. Setelah 'Not only', to be harus dipindah ke depan subject ('Not only is Rachma...')." }
+                ]
+            },
+            // Soal 10 (Kunci: A - Indeks 0)
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "Rarely Inversion Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Rarely <u>we have</u> (A) experienced <u>such a complex</u> (B) linguistic problem <u>in our ethnopragmatics</u> (C) research project (D) this year (E).",
+                answerOptions: [
+                    { text: "we have", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Rarely' di awal kalimat mewajibkan inversi auxiliary 'have' sebelum subject ('Have we')." },
+                    { text: "such a complex", isCorrect: false, explanation: "Salah. Adjective phrase sudah tepat." },
+                    { text: "in our ethnopragmatics", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "research project", isCorrect: false, explanation: "Salah. Noun compound sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 11 (Kunci: B - Indeks 1)
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Hardly Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Hardly <u>the researcher had</u> (A) finished <u>analyzing the data</u> (B) when <u>the computer system</u> (C) crashed unexpectedly (D) in the office (E).",
+                answerOptions: [
+                    { text: "analyzing the data", isCorrect: false, explanation: "Salah. Gerund phrase sudah tepat." },
+                    { text: "the researcher had", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Hardly' di awal kalimat menuntut inversi 'Had the researcher finished', bukan 'the researcher had'." },
+                    { text: "the computer system", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "crashed unexpectedly", isCorrect: false, explanation: "Salah. Predikat sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 12 (Kunci: C - Indeks 2)
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "No Sooner Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>No sooner <u>she had</u> (A) stepped <u>into the mini photo studio</u> (B) than <u>the customer</u> (C) arrived <u>for the commercial photoshoot</u> (D) session (E).",
+                answerOptions: [
+                    { text: "into the mini photo studio", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "the customer", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "she had", isCorrect: true, explanation: "Benar! Pilihan A salah. 'No sooner' di awal kalimat mewajibkan inversi auxiliary 'Had' sebelum subject ('Had she'), diikuti pasangannya 'than'." },
+                    { text: "arrived", isCorrect: false, explanation: "Salah. Predikat sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 13 (Kunci: D - Indeks 3)
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Only Once Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Only once <u>the committee approved</u> (A) <u>such an unusual budget</u> (B) for <u>the printing services</u> (C) department <u>last month</u> (D) in town (E).",
+                answerOptions: [
+                    { text: "such an unusual budget", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "the printing services", isCorrect: false, explanation: "Salah. Noun compound sudah tepat." },
+                    { text: "department", isCorrect: false, explanation: "Salah. Noun sudah tepat." },
+                    { text: "the committee approved", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Only once' di awal kalimat mewajibkan inversi ('Only once did the committee approve...')." },
+                    { text: "last month", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            // Soal 14 (Kunci: E - Indeks 4)
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                category: "At No Time Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>At no time <u>the administration permitted</u> (A) students <u>to bypass</u> (B) the mandatory registration <u>procedures</u> (C) <u>for the language</u> (D) courses (E).",
+                answerOptions: [
+                    { text: "to bypass", isCorrect: false, explanation: "Salah. Infinitive sudah tepat." },
+                    { text: "procedures", isCorrect: false, explanation: "Salah. Noun sudah tepat." },
+                    { text: "for the language", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "courses", isCorrect: false, explanation: "Salah. Noun sudah tepat." },
+                    { text: "the administration permitted", isCorrect: true, explanation: "Benar! Pilihan A salah. 'At no time' di awal kalimat mewajibkan inversi lampau ('At no time did the administration permit...')." }
+                ]
+            },
+            // Soal 15 (Kunci: A - Indeks 0)
+            {
+                questionNumber: 15,
+                type: "Error Analysis",
+                category: "Only By Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Only by practicing daily <u>students can improve</u> (A) their English speaking <u>fluency</u> (B) before taking <u>the TOEFL exam</u> (C) <u>next semester</u> (D) at the institute (E).",
+                answerOptions: [
+                    { text: "students can improve", isCorrect: true, explanation: "Benar! Pilihan A salah. 'Only by...' di awal kalimat mewajibkan inversi modal auxiliary sebelum subject ('can students improve')." },
+                    { text: "fluency", isCorrect: false, explanation: "Salah. Noun sudah tepat." },
+                    { text: "the TOEFL exam", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "next semester", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN", isCorrect: false, explanation: "Salah. Ada kesalahan di bagian A." }
+                ]
+            },
+            // Soal 16 (Kunci: B - Indeks 1)
+            {
+                questionNumber: 16,
+                type: "Complete the Blank",
+                category: "Never Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat inversi negatif berikut:<br><br>Never _____ reminded you so many times about the presentation.",
+                answerOptions: [
+                    { text: "I have", isCorrect: false, explanation: "Salah. Belum diinversi." },
+                    { text: "have I", isCorrect: true, explanation: "Benar! Setelah 'Never', auxiliary 'have' diletakkan mendahului subject 'I'." },
+                    { text: "did I", isCorrect: false, explanation: "Salah. Diikuti reminded (V3), sehingga menggunakan have." },
+                    { text: "I did", isCorrect: false, explanation: "Salah. Struktur normal." },
+                    { text: "has I", isCorrect: false, explanation: "Salah. Subject I berpasangan dengan have." }
+                ]
+            },
+            // Soal 17 (Kunci: C - Indeks 2)
+            {
+                questionNumber: 17,
+                type: "Complete the Blank",
+                category: "Seldom Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi negatif berikut:<br><br>Seldom _____ cancel the syntax lecture without notice.",
+                answerOptions: [
+                    { text: "Dr. Mila", isCorrect: false, explanation: "Salah. Belum diinversi." },
+                    { text: "Dr. Mila does", isCorrect: false, explanation: "Salah. Struktur normal." },
+                    { text: "does Dr. Mila", isCorrect: true, explanation: "Benar! Karena menggunakan present tense, auxiliary 'does' digunakan sebelum subject tunggal 'Dr. Mila'." },
+                    { text: "do Dr. Mila", isCorrect: false, explanation: "Salah. Dr. Mila adalah singular." },
+                    { text: "is Dr. Mila", isCorrect: false, explanation: "Salah. Verb utama adalah cancel (kata kerja biasa)." }
+                ]
+            },
+            // Soal 18 (Kunci: D - Indeks 3)
+            {
+                questionNumber: 18,
+                type: "Complete the Blank",
+                category: "Under No Circumstances Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi negatif berikut:<br><br>Under no circumstances _____ cheat during the TOEFL test.",
+                answerOptions: [
+                    { text: "the students should", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "students should", isCorrect: false, explanation: "Salah. Struktur normal." },
+                    { text: "should students do", isCorrect: false, explanation: "Salah. Kelebihan auxiliary." },
+                    { text: "should the students", isCorrect: true, explanation: "Benar! Modal auxiliary 'should' diletakkan sebelum subject 'the students'." },
+                    { text: "do students should", isCorrect: false, explanation: "Salah. Grammar keliru." }
+                ]
+            },
+            // Soal 19 (Kunci: E - Indeks 4)
+            {
+                questionNumber: 19,
+                type: "Complete the Blank",
+                category: "Not Only Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi negatif berikut:<br><br>Not only _____ traveling abroad, but he is also studying language acquisition.",
+                answerOptions: [
+                    { text: "Rachma is", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "does Rachma", isCorrect: false, explanation: "Salah. Kalimat menggunakan to be is." },
+                    { text: "has Rachma", isCorrect: false, explanation: "Salah. Tidak sesuai konteks continuous." },
+                    { text: "Rachma does", isCorrect: false, explanation: "Salah. Struktur normal." },
+                    { text: "is Rachma", isCorrect: true, explanation: "Benar! To be 'is' diletakkan mendahului subject 'Rachma'." }
+                ]
+            },
+            // Soal 20 (Kunci: A - Indeks 0)
+            {
+                questionNumber: 20,
+                type: "Complete the Blank",
+                category: "Rarely Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi negatif berikut:<br><br>Rarely _____ such dedication among the PIBI class participants.",
+                answerOptions: [
+                    { text: "have we seen", isCorrect: true, explanation: "Benar! Auxiliary 'have' diletakkan sebelum subject 'we' diikuti V3 'seen'." },
+                    { text: "we have seen", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "did we saw", isCorrect: false, explanation: "Salah. Setelah did harus V1, bukan saw." },
+                    { text: "we did see", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "has we seen", isCorrect: false, explanation: "Salah. Subject we berpasangan dengan have." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-200 text-rose-900";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-slate-100 border-slate-300 text-slate-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-rose-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-rose-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 20`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

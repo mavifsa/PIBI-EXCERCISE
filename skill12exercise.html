@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 12 - Adverbial Clause Reduction (35 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-emerald-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-emerald-700 text-emerald-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 12: Adverbial Clause Reduction</h1>
+                <p class="text-emerald-200 text-sm">35 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-emerald-800 border border-emerald-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-emerald-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 35</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">⚙️</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 12 (Reduced Adverbial Clause)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman mendalam tentang reduksi Adverbial Clause (AVC of Time, Contrast, Reason, Condition), syarat kesamaan subjek (mencegah dangling modifier), Subject Reduction, Conj+Subj Reduction, variasi V-ing, V3, Adj, Perfect Participle, serta posisi Initial, Middle, dan Final.
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 35 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Soal Conceptual</li>
+                    <li>Error Analysis</li>
+                    <li>Complete the Blank</li>
+                    <li>Distribusi Kesulitan: Mudah, Sedang, Sulit</li>
+                    <li>Pilihan Jawaban: A, B, C, D, E dengan Pembahasan Rapat</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-emerald-600 font-bold">1</span> dari <span id="total-q-num">35</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-300" style="width: 2.85%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 35 Soal Skill 12: Adverbial Clause Reduction.
+            </p>
+            <div class="inline-block bg-emerald-50 border border-emerald-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-emerald-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 35</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; LUMINA PROJECT • 2026 TOEFL Preparation • Skill 12: Adverbial Clause Reduction
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            // --- BAGIAN 1: 5 SOAL CONCEPTUAL ANALYSIS ---
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Syarat Mutlak Subject",
+                difficulty: "Mudah",
+                question: "Apa syarat mutlak yang harus dipenuhi sebelum melakukan reduksi pada Adverbial Clause (AVC)?",
+                answerOptions: [
+                    { text: "Subject AVC dan subject Main Clause harus SAMA.", isCorrect: true, explanation: "Benar! Reduksi hanya boleh dilakukan jika subjek di dalam AVC dan Main Clause adalah sama. Jika berbeda, terjadi dangling modifier." },
+                    { text: "Verb utama dalam kalimat harus berbentuk Past Tense.", isCorrect: false, explanation: "Salah. Tenses tidak memengaruhi syarat reduksi." },
+                    { text: "Conjunction harus selalu dihapus total.", isCorrect: false, explanation: "Salah. Pada Subject Reduction, conjunction tetap tinggal." },
+                    { text: "Kalimat harus berbentuk kalimat tanya.", isCorrect: false, explanation: "Salah. Ini berlaku pada kalimat pernyataan." },
+                    { text: "AVC harus selalu diletakkan di akhir kalimat.", isCorrect: false, explanation: "Salah. AVC dapat di awal, tengah, atau akhir." }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Subject Reduction vs Conj+Subj",
+                difficulty: "Sedang",
+                question: "Apa perbedaan utama antara metode <em>Subject Reduction</em> dan <em>Conj+Subj Reduction</em>?",
+                answerOptions: [
+                    { text: "Subject Reduction menghapus subject saja (conjunction tetap ada), sedangkan Conj+Subj Reduction menghapus conjunction dan subject sekaligus.", isCorrect: true, explanation: "Benar! Subject Reduction menyisakan conjunction (seperti while, when, although), sedangkan Conj+Subj Reduction melenyapkan conjunction total." },
+                    { text: "Subject Reduction hanya untuk kalimat pasif, sedangkan Conj+Subj untuk aktif.", isCorrect: false, explanation: "Salah. Keduanya berlaku untuk aktif dan pasif." },
+                    { text: "Subject Reduction wajib menghapus verb utama.", isCorrect: false, explanation: "Salah. Verb berubah menjadi participle." },
+                    { text: "Conj+Subj Reduction tidak boleh menggunakan Ving.", isCorrect: false, explanation: "Salah. Conj+Subj justru sangat sering menggunakan Ving (seperti pada Reason)." },
+                    { text: "Tidak ada perbedaan mendasar di antara keduanya.", isCorrect: false, explanation: "Salah. Keberadaan conjunction menjadi pembeda utama." }
+                ]
+            },
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Aturan Reason",
+                difficulty: "Sedang",
+                question: "Mengapa konjungsi penunjuk alasan (<em>AVC of Reason</em> seperti <em>because</em>) <strong>TIDAK BOLEH</strong> menetap di dalam kalimat saat dilakukan reduksi?",
+                answerOptions: [
+                    { text: "Karena because tidak boleh bertemu langsung dengan Ving atau Adjective tanpa subjek.", isCorrect: true, explanation: "Benar! Konjungsi because wajib dilebur melalui metode Conj+Subj Reduction (conjunction because hilang total, menyisakan Ving/V3/Adj)." },
+                    { text: "Karena because hanya boleh dipakai di akhir kalimat.", isCorrect: false, explanation: "Salah. Because dapat di awal." },
+                    { text: "Karena reason clause tidak bisa direduksi.", isCorrect: false, explanation: "Salah. Reason justru wajib direduksi dengan Conj+Subj." },
+                    { text: "Karena mengubah tenses utama kalimat.", isCorrect: false, explanation: "Salah. Tidak mengubah tenses." },
+                    { text: "Karena because adalah relative pronoun.", isCorrect: false, explanation: "Salah. Because adalah conjunction of reason." }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Perfect Participle",
+                difficulty: "Sulit",
+                question: "Kapan bentuk <strong>Perfect Participle</strong> (<em>having + V3 / having been + V3</em>) digunakan dalam reduksi Adverbial Clause?",
+                answerOptions: [
+                    { text: "Ketika ingin menekankan bahwa kejadian di klausa keterangan sudah selesai total sebelum klausa utama terjadi.", isCorrect: true, explanation: "Benar! Perfect Participle digunakan pada AVC of Time untuk menunjukkan urutan waktu yang lampau tuntas sebelum Main Clause." },
+                    { text: "Ketika kejadian terjadi secara bersamaan persis.", isCorrect: false, explanation: "Salah. Kejadian bersamaan menggunakan Present Participle (Ving)." },
+                    { text: "Ketika kalimat utama berbentuk Future Tense.", isCorrect: false, explanation: "Salah. Tidak ditentukan oleh future tense." },
+                    { text: "Ketika subjek kalimat berjumlah jamak.", isCorrect: false, explanation: "Salah. Jumlah subjek tidak memengaruhi." },
+                    { text: "Ketika konjungsi yang digunakan adalah because.", isCorrect: false, explanation: "Salah. Umumnya pada after/when." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Posisi Final Reason",
+                difficulty: "Sulit",
+                question: "Mengapa posisi Final (<em>di akhir kalimat tanpa konjungsi</em>) umumnya dihindari pada reduksi <em>AVC of Reason</em>?",
+                answerOptions: [
+                    { text: "Karena akan merusak kejelasan logika kalimat dan terdengar membingungkan tanpa adanya kata hubung sebab.", isCorrect: true, explanation: "Benar! Reduksi reason tanpa konjungsi di akhir kalimat menghilangkan kejelasan hubungan sebab-akibat." },
+                    { text: "Karena gramatikal bahasa Inggris melarang semua frasa participle di akhir.", isCorrect: false, explanation: "Salah. Participle lain boleh di akhir." },
+                    { text: "Karena mengubah verb utama menjadi noun.", isCorrect: false, explanation: "Salah. Verb tetap participle." },
+                    { text: "Karena subjek utama akan hilang.", isCorrect: false, explanation: "Salah. Subjek utama tetap utuh." },
+                    { text: "Karena hanya boleh menempati posisi tengah.", isCorrect: false, explanation: "Salah. Initial dan middle adalah posisi terbaiknya." }
+                ]
+            },
+
+            // --- BAGIAN 2: 18 SOAL ERROR ANALYSIS ---
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Subject Reduction Time",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>While <u>walk</u> (A) to campus, <u>Usamah</u> (B) found <u>a wallet</u> (C) containing <u>valuable documents</u> (D) near the library (E).",
+                answerOptions: [
+                    { text: "walk", isCorrect: true, explanation: "Benar! Pilihan A salah. Pada subjek reduksi aktif 'While', verb harus berbentuk Present Participle 'walking', bukan verb dasar 'walk'." },
+                    { text: "Usamah", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "a wallet", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "valuable documents", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "near the library", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Passive Reduction",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>When <u>submit</u> (A) on time, <u>the reports</u> (B) will be <u>processed immediately</u> (C) by <u>the academic staff</u> (D) tomorrow morning (E).",
+                answerOptions: [
+                    { text: "submit", isCorrect: true, explanation: "Benar! Pilihan A salah. Ini adalah reduksi pasif 'When', sehingga harus menggunakan Past Participle V3 'submitted', bukan 'submit'." },
+                    { text: "the reports", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "processed immediately", isCorrect: false, explanation: "Salah. Verb pasif sudah tepat." },
+                    { text: "the academic staff", isCorrect: false, explanation: "Salah. Agent sudah tepat." },
+                    { text: "tomorrow morning", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Adj Reduction",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Although <u>tired</u> (A) from the long flight, <u>he</u> (B) <u>continued working</u> (C) <u>late into</u> (D) the night (E).",
+                answerOptions: [
+                    { text: "tired", isCorrect: false, explanation: "Salah. Adjective sisa reduksi sudah tepat." },
+                    { text: "he", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "continued working", isCorrect: false, explanation: "Salah. Predikat sudah tepat." },
+                    { text: "late into", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "Reason Reduction",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Lacking</u> (A) sufficient funding, <u>the researchers</u> (B) <u>postponed</u> (C) <u>the project</u> (D) until next month (E).",
+                answerOptions: [
+                    { text: "Lacking", isCorrect: false, explanation: "Salah. Present participle sisa reduksi reason sudah tepat." },
+                    { text: "the researchers", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "postponed", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "the project", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "Passive Reason",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Build</u> (A) with outdated equipment, <u>the laboratory</u> (B) could not <u>conduct</u> (C) <u>the delicate experiment</u> (D) successfully (E).",
+                answerOptions: [
+                    { text: "Build", isCorrect: true, explanation: "Benar! Pilihan A salah. Reduksi pasif reason menyisakan Past Participle V3 'Built', bukan bentuk dasar 'Build'." },
+                    { text: "the laboratory", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "conduct", isCorrect: false, explanation: "Salah. Verb dasar setelah modal sudah tepat." },
+                    { text: "the delicate experiment", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "successfully", isCorrect: false, explanation: "Salah. Adverb sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Perfect Participle",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Having complete</u> (A) <u>the TOEFL preparation</u> (B), <u>the PIBI students</u> (C) took <u>the real test</u> (D) with confidence (E).",
+                answerOptions: [
+                    { text: "Having complete", isCorrect: true, explanation: "Benar! Pilihan A salah. Rumus Perfect Participle adalah 'having + V3', sehingga harusnya 'Having completed'." },
+                    { text: "the TOEFL preparation", isCorrect: false, explanation: "Salah. Object noun phrase sudah tepat." },
+                    { text: "the PIBI students", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "the real test", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "with confidence", isCorrect: false, explanation: "Salah. Adverbial phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "Dangling Modifier",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>While <u>walking</u> (A) through the museum, <u>the ancient artifact</u> (B) caught <u>my attention</u> (C) immediately (D) yesterday (E).",
+                answerOptions: [
+                    { text: "walking", isCorrect: false, explanation: "Salah. Participle sudah tepat." },
+                    { text: "the ancient artifact", isCorrect: true, explanation: "Benar! Pilihan B salah. Terjadi dangling modifier. Subjek utama adalah 'artifact' (tidak bisa berjalan). Seharusnya subjek utama adalah orang." },
+                    { text: "my attention", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "immediately", isCorrect: false, explanation: "Salah. Adverb sudah tepat." },
+                    { text: "yesterday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Reason Conjunction Retention",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Because <u>lacking</u> (A) experience <u>in semantic analysis</u>, <u>the young researcher</u> (B) struggled <u>to finish</u> (C) <u>the journal paper</u> (D) on schedule (E).",
+                answerOptions: [
+                    { text: "lacking", isCorrect: true, explanation: "Benar! Pilihan A salah. Konjungsi 'Because' TIDAK BOLEH menetap jika subjeknya dibuang. Seharusnya 'Because' dihapus total." },
+                    { text: "in semantic analysis", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "the young researcher", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "to finish", isCorrect: false, explanation: "Salah. Infinitive sudah tepat." },
+                    { text: "the journal paper", isCorrect: false, explanation: "Salah. Object sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                category: "Middle Position Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The researchers, <u>while conduct</u> (A) the experiment, <u>recorded</u> (B) <u>every observation</u> (C) carefully (D) in the laboratory (E).",
+                answerOptions: [
+                    { text: "while conduct", isCorrect: true, explanation: "Benar! Pilihan A salah. Posisi tengah (middle) pada reduksi aktif 'While' wajib menggunakan Ving ('while conducting')." },
+                    { text: "recorded", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "every observation", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "carefully", isCorrect: false, explanation: "Salah. Adverb sudah tepat." },
+                    { text: "in the laboratory", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Error Analysis",
+                category: "Condition Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>If <u>possible</u> (A), <u>please submit</u> (B) your assignment <u>before the deadline</u> (C) <u>next week</u> (D) via email (E).",
+                answerOptions: [
+                    { text: "possible", isCorrect: false, explanation: "Salah. Adjective sisa reduksi conditional sudah tepat." },
+                    { text: "please submit", isCorrect: false, explanation: "Salah. Imperative sudah tepat." },
+                    { text: "before the deadline", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "next week", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna secara grammar." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Error Analysis",
+                category: "Passive Time Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Once <u>publish</u> (A) in the journal, <u>the research findings</u> (B) will benefit <u>scholars worldwide</u> (C) <u>in the field</u> (D) of linguistics (E).",
+                answerOptions: [
+                    { text: "publish", isCorrect: true, explanation: "Benar! Pilihan A salah. Reduksi pasif 'Once' menyisakan Past Participle V3 'published', bukan bentuk dasar 'publish'." },
+                    { text: "the research findings", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "scholars worldwide", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "in the field", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "of linguistics", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Error Analysis",
+                category: "Exhausted Adj Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Exhausted</u> (A), <u>the professor</u> (B) <u>canceled</u> (C) <u>the evening lecture</u> (D) due to health reasons (E).",
+                answerOptions: [
+                    { text: "Exhausted", isCorrect: false, explanation: "Salah. Adjective sisa reduksi sudah tepat." },
+                    { text: "the professor", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "canceled", isCorrect: false, explanation: "Salah. Predikat sudah tepat." },
+                    { text: "the evening lecture", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 18,
+                type: "Error Analysis",
+                category: "Contrast Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Although <u>knew</u> (A) the risks involved, <u>she</u> (B) <u>decided</u> (C) to proceed <u>with the venture</u> (D) independently (E).",
+                answerOptions: [
+                    { text: "knew", isCorrect: true, explanation: "Benar! Pilihan A salah. Reduksi active clause 'Although' menyisakan Present Participle Ving 'knowing', bukan V2 'knew'." },
+                    { text: "she", isCorrect: false, explanation: "Salah. Subject utama sudah tepat." },
+                    { text: "decided", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "with the venture", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "independently", isCorrect: false, explanation: "Salah. Adverb sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Error Analysis",
+                category: "Dangling Modifier Participle",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Recognizing</u> (A) the complexity of the problem, <u>a new strategy</u> (B) <u>was adopted</u> (C) <u>by the committee</u> (D) immediately (E).",
+                answerOptions: [
+                    { text: "Recognizing", isCorrect: true, explanation: "Benar! Pilihan A salah. Terjadi dangling modifier. Subjek participle 'Recognizing' adalah 'committee' (orang), tetapi subjek utama kalimat adalah 'a new strategy' (benda)." },
+                    { text: "a new strategy", isCorrect: false, explanation: "Salah. Subject pasif sudah tepat." },
+                    { text: "was adopted", isCorrect: false, explanation: "Salah. Verb pasif sudah tepat." },
+                    { text: "by the committee", isCorrect: false, explanation: "Salah. Agent sudah tepat." },
+                    { text: "immediately", isCorrect: false, explanation: "Salah. Adverb sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 20,
+                type: "Error Analysis",
+                category: "Since Passive Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Since criticize</u> (A) for its lack of empirical evidence, <u>the linguistic theory</u> (B) <u>faced</u> (C) <u>severe criticism</u> (D) from international peers (E).",
+                answerOptions: [
+                    { text: "Since criticize", isCorrect: true, explanation: "Benar! Pilihan A salah. Conj+Subj reduction pasif reason 'Since' menyisakan Past Participle V3 'Criticized', bukan 'criticize'." },
+                    { text: "the linguistic theory", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "faced", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "severe criticism", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "from international peers", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 21,
+                type: "Error Analysis",
+                category: "Before Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Before <u>begin</u> (A) the analysis, <u>the researcher</u> (B) <u>reviewed</u> (C) <u>all relevant literature</u> (D) meticulously (E).",
+                answerOptions: [
+                    { text: "begin", isCorrect: true, explanation: "Benar! Pilihan A salah. Setelah konjungsi waktu 'Before' dalam subjek reduksi, verb aktif harus berbentuk Present Participle 'beginning'." },
+                    { text: "the researcher", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "reviewed", isCorrect: false, explanation: "Salah. Predikat sudah tepat." },
+                    { text: "all relevant literature", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "meticulously", isCorrect: false, explanation: "Salah. Adverb sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 22,
+                type: "Error Analysis",
+                category: "Perfect Participle Passive",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Having been published</u> (A) last week, <u>the article</u> (B) <u>attracted</u> (C) <u>widespread attention</u> (D) across academic circles (E).",
+                answerOptions: [
+                    { text: "Having been published", isCorrect: false, explanation: "Salah. Perfect participle pasif sudah tepat." },
+                    { text: "the article", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "attracted", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "widespread attention", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 23,
+                type: "Error Analysis",
+                category: "Unless Reduction",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Unless <u>necessary</u> (A), <u>do not modify</u> (B) the original parameters <u>of the experiment</u> (C) <u>during</u> (D) the test (E).",
+                answerOptions: [
+                    { text: "necessary", isCorrect: false, explanation: "Salah. Adjective sisa reduksi conditional sudah tepat." },
+                    { text: "do not modify", isCorrect: false, explanation: "Salah. Imperative sudah tepat." },
+                    { text: "of the experiment", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "during", isCorrect: false, explanation: "Salah. Preposisi sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+
+            // --- BAGIAN 3: 12 SOAL COMPLETE THE BLANK ---
+            {
+                questionNumber: 24,
+                type: "Complete the Blank",
+                category: "Time Reduction Active",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>While _____ to campus, Usamah found a wallet.",
+                answerOptions: [
+                    { text: "walk", isCorrect: false, explanation: "Salah. Verb dasar tidak tepat." },
+                    { text: "walking", isCorrect: true, explanation: "Benar! Reduksi aktif 'While' menyisakan Present Participle 'walking'." },
+                    { text: "walked", isCorrect: false, explanation: "Salah. V2." },
+                    { text: "walks", isCorrect: false, explanation: "Salah. Verb +s." },
+                    { text: "to walk", isCorrect: false, explanation: "Salah. Infinitive." }
+                ]
+            },
+            {
+                questionNumber: 25,
+                type: "Complete the Blank",
+                category: "Time Reduction Passive",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>When _____ on time, the reports will be processed immediately.",
+                answerOptions: [
+                    { text: "submitting", isCorrect: false, explanation: "Salah. Ving untuk aktif." },
+                    { text: "submitted", isCorrect: true, explanation: "Benar! Reduksi pasif 'When' menyisakan Past Participle V3 'submitted'." },
+                    { text: "submit", isCorrect: false, explanation: "Salah. Verb dasar." },
+                    { text: "to submit", isCorrect: false, explanation: "Salah. Infinitive." },
+                    { text: "submits", isCorrect: false, explanation: "Salah. Verb +s." }
+                ]
+            },
+            {
+                questionNumber: 26,
+                type: "Complete the Blank",
+                category: "Adj Reduction Contrast",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>Although _____ from the long flight, he continued working.",
+                answerOptions: [
+                    { text: "tired", isCorrect: true, explanation: "Benar! Reduksi kalimat nominal menyisakan Adjective 'tired'." },
+                    { text: "tiring", isCorrect: false, explanation: "Salah. Participle aktif." },
+                    { text: "tire", isCorrect: false, explanation: "Salah. Verb dasar." },
+                    { text: "tying", isCorrect: false, explanation: "Salah. Kata keliru." },
+                    { text: "to tire", isCorrect: false, explanation: "Salah. Infinitive." }
+                ]
+            },
+            {
+                questionNumber: 27,
+                type: "Complete the Blank",
+                category: "Reason Reduction Active",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____ sufficient funding, the researchers postponed the project.",
+                answerOptions: [
+                    { text: "Lacked", isCorrect: false, explanation: "Salah. V2 tidak bisa langsung." },
+                    { text: "Lacking", isCorrect: true, explanation: "Benar! Conj+Subj reduction pada reason aktif menyisakan Present Participle 'Lacking'." },
+                    { text: "Because lacked", isCorrect: false, explanation: "Salah. Because tidak boleh ada." },
+                    { text: "To lack", isCorrect: false, explanation: "Salah. Infinitive." },
+                    { text: "Lack", isCorrect: false, explanation: "Salah. Verb dasar." }
+                ]
+            },
+            {
+                questionNumber: 28,
+                type: "Complete the Blank",
+                category: "Reason Reduction Passive",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____ with outdated equipment, the laboratory could not conduct the experiment.",
+                answerOptions: [
+                    { text: "Building", isCorrect: false, explanation: "Salah. Aktif." },
+                    { text: "Built", isCorrect: true, explanation: "Benar! Conj+Subj reduction pasif reason menyisakan Past Participle V3 'Built'." },
+                    { text: "Since built", isCorrect: false, explanation: "Salah. Since tidak boleh ada." },
+                    { text: "To build", isCorrect: false, explanation: "Salah. Infinitive." },
+                    { text: "Build", isCorrect: false, explanation: "Salah. Verb dasar." }
+                ]
+            },
+            {
+                questionNumber: 29,
+                type: "Complete the Blank",
+                category: "Adj Reduction Reason",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____, the professor canceled the lecture.",
+                answerOptions: [
+                    { text: "Exhausted", isCorrect: true, explanation: "Benar! Reduksi reason nominal menyisakan Adjective 'Exhausted'." },
+                    { text: "Exhausting", isCorrect: false, explanation: "Salah. Participle aktif." },
+                    { text: "As exhausted", isCorrect: false, explanation: "Salah. As tidak boleh ada." },
+                    { text: "Exhaust", isCorrect: false, explanation: "Salah. Noun/verb dasar." },
+                    { text: "To exhaust", isCorrect: false, explanation: "Salah. Infinitive." }
+                ]
+            },
+            {
+                questionNumber: 30,
+                type: "Complete the Blank",
+                category: "Perfect Participle",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____ the TOEFL preparation, the PIBI students took the real test.",
+                answerOptions: [
+                    { text: "Complete", isCorrect: false, explanation: "Salah. Bentuk dasar." },
+                    { text: "Completing", isCorrect: false, explanation: "Kurang tepat untuk kejadian yang sudah tuntas sempurna sebelum tindakan utama." },
+                    { text: "Having completed", isCorrect: true, explanation: "Benar! Digunakan Perfect Participle 'Having completed' untuk menekankan tuntasnya kegiatan sebelumnya." },
+                    { text: "Completed", isCorrect: false, explanation: "Salah. V3 tunggal tidak sesuai konteks waktu." },
+                    { text: "To complete", isCorrect: false, explanation: "Salah. Infinitive." }
+                ]
+            },
+            {
+                questionNumber: 31,
+                type: "Complete the Blank",
+                category: "Middle Position Time",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>The researchers, _____, recorded every observation carefully.",
+                answerOptions: [
+                    { text: "while conducting the experiment", isCorrect: true, explanation: "Benar! Posisi tengah (middle) diapit dua koma menggunakan reduksi 'while conducting the experiment'." },
+                    { text: "conduct the experiment", isCorrect: false, explanation: "Salah. Tidak direduksi." },
+                    { text: "conducted", isCorrect: false, explanation: "Salah. V2." },
+                    { text: "while conducted", isCorrect: false, explanation: "Salah. Pasif keliru konteks." },
+                    { text: "to conduct", isCorrect: false, explanation: "Salah. Infinitive." }
+                ]
+            },
+            {
+                questionNumber: 32,
+                type: "Complete the Blank",
+                category: "Condition Reduction",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____ in doubt, please contact the administrative office immediately.",
+                answerOptions: [
+                    { text: "Be", isCorrect: false, explanation: "Salah." },
+                    { text: "If", isCorrect: false, explanation: "Salah." },
+                    { text: "If possible / If in doubt", isCorrect: false, explanation: "Salah." },
+                    { text: "In doubt", isCorrect: true, explanation: "Benar! Reduksi conditional menyisakan prepositional phrase/adjective 'In doubt'." },
+                    { text: "Doubting", isCorrect: false, explanation: "Salah." }
+                ]
+            },
+            {
+                questionNumber: 33,
+                type: "Complete the Blank",
+                category: "Before Reduction Active",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>Before _____ the final manuscript, check all citations carefully.",
+                answerOptions: [
+                    { text: "submit", isCorrect: false, explanation: "Salah." },
+                    { text: "submitting", isCorrect: true, explanation: "Benar! Setelah konjungsi 'Before', reduksi aktif menggunakan Ving 'submitting'." },
+                    { text: "submitted", isCorrect: false, explanation: "Salah." },
+                    { text: "submission", isCorrect: false, explanation: "Salah." },
+                    { text: "to submit", isCorrect: false, explanation: "Salah." }
+                ]
+            },
+            {
+                questionNumber: 34,
+                type: "Complete the Blank",
+                category: "Perfect Participle Passive",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>_____ by the review board, the manuscript was sent back for major revisions.",
+                answerOptions: [
+                    { text: "Having reviewed", isCorrect: false, explanation: "Salah. Aktif." },
+                    { text: "Having been reviewed", isCorrect: true, explanation: "Benar! Menggunakan Perfect Participle pasif 'Having been reviewed'." },
+                    { text: "Reviewing", isCorrect: false, explanation: "Salah." },
+                    { text: "Reviewed", isCorrect: false, explanation: "Bisa juga Reviewed, namun Having been reviewed lebih menekankan kesempurnaan urutan waktu." },
+                    { text: "To review", isCorrect: false, explanation: "Salah." }
+                ]
+            },
+            {
+                questionNumber: 35,
+                type: "Complete the Blank",
+                category: "Although Reduction",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat berikut dengan bentuk reduksi yang tepat:<br><br>Although _____ of the potential risks, she proceeded with the investment.",
+                answerOptions: [
+                    { text: "warn", isCorrect: false, explanation: "Salah." },
+                    { text: "warning", isCorrect: false, explanation: "Salah." },
+                    { text: "warned", isCorrect: true, explanation: "Benar! Reduksi pasif 'Although' menyisakan V3 'warned'." },
+                    { text: "to warn", isCorrect: false, explanation: "Salah." },
+                    { text: "warns", isCorrect: false, explanation: "Salah." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            // Set Difficulty Badge Color
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-emerald-50 border-emerald-300 text-emerald-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-emerald-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 35`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

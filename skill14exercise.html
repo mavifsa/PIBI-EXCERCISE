@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 14 - Inversion after Place (25 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-cyan-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-cyan-700 text-cyan-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 14: Inversion after Place Expressions</h1>
+                <p class="text-cyan-200 text-sm">25 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-cyan-800 border border-cyan-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-cyan-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 25</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">📍</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 14 (Inversion after Place)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman tentang inversi setelah ekspresi tempat, larangan pada kalimat verbal, larangan inversi.
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 25 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Soal Conceptual Analysis</li>
+                    <li>Soal Error Analysis</li>
+                    <li>Soal Complete the Blank</li>
+                    <li>Kunci Jawaban</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-cyan-600 font-bold">1</span> dari <span id="total-q-num">25</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-cyan-100 text-cyan-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-cyan-600 h-2.5 rounded-full transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-cyan-50 text-cyan-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 25 Soal Skill 14: Inversion after Place Expressions.
+            </p>
+            <div class="inline-block bg-cyan-50 border border-cyan-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-cyan-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 25</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; LUMINA PROJECT 2026 •  TOEFL Preparation • Skill 14: Inversion after Place
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            // --- BAGIAN 1: CONCEPTUAL ANALYSIS (5 SOAL) ---
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Aturan Auxiliary Inversi Tempat",
+                difficulty: "Mudah",
+                question: "Bagaimanakah aturan penggunaan kata kerja bantu (<em>auxiliary</em> seperti <em>do/does/did</em>) pada kalimat verbal yang mengalami <strong>inversi tempat</strong> (<em>Inversion after Place</em>)?",
+                answerOptions: [
+                    { text: "Wajib menggunakan auxiliary 'did' untuk semua tenses lampau.", isCorrect: false, explanation: "Salah. Auxiliary tidak digunakan dalam inversi tempat." },
+                    { text: "Tidak memerlukan auxiliary sama sekali; main verb langsung melompat ke depan subject.", isCorrect: true, explanation: "Benar! Berbeda dengan kalimat tanya, inversi tempat pada kalimat verbal tidak menggunakan auxiliary (do/does/did), melainkan main verb langsung mendahului subject." },
+                    { text: "Hanya menggunakan modal auxiliary.", isCorrect: false, explanation: "Salah. Tidak menggunakan modal auxiliary." },
+                    { text: "Auxiliary wajib diletakkan di akhir kalimat.", isCorrect: false, explanation: "Salah. Struktur inversi menempatkan verb langsung di depan subject." },
+                    { text: "Hanya digunakan pada kalimat nominal.", isCorrect: false, explanation: "Salah. Berlaku juga pada kalimat verbal." }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Syarat Verb Inversi Tempat",
+                difficulty: "Sedang",
+                question: "Jenis kata kerja (<em>verb</em>) apa saja yang <strong>HANYA BISA</strong> berpasangan dengan inversi setelah ekspresi tempat?",
+                answerOptions: [
+                    { text: "Transitive Verb yang membutuhkan object langsung.", isCorrect: false, explanation: "Salah. Transitive verb haram digunakan dalam inversi tempat." },
+                    { text: "Linking verb semu seperti seem dan appear.", isCorrect: false, explanation: "Salah. Harus berupa verb of existence atau motion." },
+                    { text: "Intransitive Verb of Existence atau Motion (seperti sit, stand, lie, come, walk, run, be).", isCorrect: true, explanation: "Benar! Inversi tempat hanya dapat dipasangkan dengan intransitive verb of existence/motion yang tidak membutuhkan objek langsung." },
+                    { text: "Auxiliary verb 'have' dan 'has'.", isCorrect: false, explanation: "Salah. Bukan ketentuan inversi tempat." },
+                    { text: "Passive verb dalam bentuk V3.", isCorrect: false, explanation: "Salah. Tidak disyaratkan harus pasif." }
+                ]
+            },
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Larangan Pronoun Inversi",
+                difficulty: "Sedang",
+                question: "Mengapa inversi setelah ekspresi tempat <strong>TIDAK BOLEH</strong> dilakukan jika subjek kalimat berupa <em>Pronoun</em> (seperti <em>she, he, it, they, we, you, I</em>)?",
+                answerOptions: [
+                    { text: "Karena pronoun tidak bisa diletakkan di akhir kalimat.", isCorrect: false, explanation: "Salah. Pronoun dapat berada di akhir dalam struktur normal." },
+                    { text: "Karena pronoun mengubah verb menjadi transitive.", isCorrect: false, explanation: "Salah. Pronoun tidak mengubah sifat verb." },
+                    { text: "Karena pronoun memerlukan auxiliary khusus.", isCorrect: false, explanation: "Salah. Tidak menggunakan auxiliary." },
+                    { text: "Karena jika subjek berupa kata ganti (pronoun), urutan kalimat harus tetap normal/tidak boleh diinversi.", isCorrect: true, explanation: "Benar! Aturan mutlak TOEFL menyatakan bahwa pronoun sebagai subjek melarang terjadinya inversi tempat." },
+                    { text: "Karena pronoun adalah kata benda abstrak.", isCorrect: false, explanation: "Salah. Pronoun adalah kata ganti orang/benda." }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Syarat Direction/Location",
+                difficulty: "Sulit",
+                question: "Mengapa kalimat seperti <em>'In the classroom, students studied'</em> tidak dapat diinversi menjadi <em>'In the classroom studied students'</em>?",
+                answerOptions: [
+                    { text: "Karena kata 'classroom' bukan prepositional phrase.", isCorrect: false, explanation: "Salah. Diawali preposisi 'in'." },
+                    { text: "Karena frasa tempat tersebut hanya menjadi latar belakang aktivitas (bukan arah atau posisi permanen subjek yang disyaratkan).", isCorrect: true, explanation: "Benar! Tempat yang hanya berfungsi sebagai latar aktivitas (background) tidak memicu inversi; harus dipisahkan koma dengan pola normal." },
+                    { text: "Karena 'studied' adalah intransitive verb.", isCorrect: false, explanation: "Salah. Studi di sini bersifat latar belakang aktivitas." },
+                    { text: "Karena subjek 'students' berupa plural noun.", isCorrect: false, explanation: "Salah. Plural noun tetap bisa diinversi jika syarat terpenuhi." },
+                    { text: "Karena kalimat tersebut adalah kalimat tanya.", isCorrect: false, explanation: "Salah. Ini kalimat pernyataan." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Transitive Verb Ban",
+                difficulty: "Sulit",
+                question: "Apa akibat fatal pada tata bahasa jika ekspresi tempat dipasangkan dengan <strong>Transitive Verb</strong> dalam struktur inversi?",
+                answerOptions: [
+                    { text: "Kalimat berubah menjadi passive voice secara otomatis.", isCorrect: false, explanation: "Salah. Tidak mengubah voice." },
+                    { text: "Auxiliary 'did' wajib ditambahkan di depan.", isCorrect: false, explanation: "Salah. Tetap dilarang." },
+                    { text: "Subjek kalimat berubah menjadi obyek preposisi.", isCorrect: false, explanation: "Salah. Subjek tetap subjek." },
+                    { text: "Artinya berubah menjadi kalimat tanya langsung.", isCorrect: false, explanation: "Salah. Inversi tempat menghasilkan pernyataan." },
+                    { text: "Kalimat menjadi salah total secara grammar karena transitive verb memerlukan objek langsung setelahnya, bukan langsung subjek.", isCorrect: true, explanation: "Benar! Transitive verb wajib diikuti objek, sehingga inversi langsung dengan subjek merusak struktur dasar kalimat." }
+                ]
+            },
+
+            // --- BAGIAN 2: ERROR ANALYSIS (12 SOAL) ---
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Auxiliary Inversion Place Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Behind the historic building <u>did stand</u> (A) <u>a majestic oak tree</u> (B) that had survived <u>for more</u> (C) than <u>two centuries</u> (D) in the city (E).",
+                answerOptions: [
+                    { text: "did stand", isCorrect: true, explanation: "Benar! Pilihan A salah. Inversi tempat pada kalimat verbal HARAM menggunakan auxiliary seperti 'did'. Main verb langsung melompat ke depan subject ('stood')." },
+                    { text: "a majestic oak tree", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "for more", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "two centuries", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "in the city", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Pronoun Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Across the wide river <u>swam they</u> (A) with <u>extraordinary speed</u> (B) to reach <u>the safety</u> (C) <u>of the opposite bank</u> (D) before dusk (E).",
+                answerOptions: [
+                    { text: "extraordinary speed", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "swam they", isCorrect: true, explanation: "Benar! Pilihan A salah. Subjek berupa pronoun ('they') TIDAK BOLEH diinversi. Seharusnya normal: 'they swam'." },
+                    { text: "the safety", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "of the opposite bank", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "before dusk", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Transitive Verb Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>On the living room wall <u>painted Usamah</u> (A) <u>a minimalist painting</u> (B) depicting <u>traditional Javanese</u> (C) village life <u>last weekend</u> (D) in Semarang (E).",
+                answerOptions: [
+                    { text: "a minimalist painting", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "traditional Javanese", isCorrect: false, explanation: "Salah. Adjective phrase sudah tepat." },
+                    { text: "painted Usamah", isCorrect: true, explanation: "Benar! Pilihan A salah. 'paint' adalah transitive verb (butuh objek), sehingga haram diinversi langsung. Seharusnya: 'On the living room wall, Usamah painted...'." },
+                    { text: "last weekend", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "in Semarang", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "Existence Verb Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Inside the cave <u>were</u> (A) <u>the rare bats</u> (B) we found <u>during our expedition</u> (C) <u>last month</u> (D) in Central Kalimantan (E).",
+                answerOptions: [
+                    { text: "were", isCorrect: false, explanation: "Salah. Verb of existence 'were' sudah tepat dengan inversi tempat." },
+                    { text: "the rare bats", isCorrect: false, explanation: "Salah. Subject jamak sudah tepat." },
+                    { text: "during our expedition", isCorrect: false, explanation: "Salah. Keterangan waktu/kegiatan sudah tepat." },
+                    { text: "last month", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "Background Place Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>In the PIBI classroom <u>slept Mursal</u> (A) after finishing <u>his intensive</u> (B) grammar research <u>on Javanese</u> (C) body-action verbs <u>all night</u> (D) long (E).",
+                answerOptions: [
+                    { text: "his intensive", isCorrect: false, explanation: "Salah. Possessive + adjective sudah tepat." },
+                    { text: "on Javanese", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "body-action verbs", isCorrect: false, explanation: "Salah. Noun compound sudah tepat." },
+                    { text: "slept Mursal", isCorrect: true, explanation: "Benar! Pilihan A salah. Kelas hanya menjadi latar belakang tempat tidur-tiduran, bukan arah/posisi permanen, sehingga tidak boleh diinversi. Seharusnya: 'In the PIBI classroom, Mursal slept'." },
+                    { text: "all night", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Be Verb Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Behind that building <u>is</u> (A) <u>a modern printing studio</u> (B) operated <u>by Lumina Project</u> (C) for commercial <u>printing services</u> (D) in town (E).",
+                answerOptions: [
+                    { text: "is", isCorrect: false, explanation: "Salah. Verb of existence 'is' sudah tepat." },
+                    { text: "a modern printing studio", isCorrect: false, explanation: "Salah. Subject tunggal sudah tepat." },
+                    { text: "by Lumina Project", isCorrect: false, explanation: "Salah. Agent sudah tepat." },
+                    { text: "printing services", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "Desk Sitting Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>On the desk <u>sat</u> (A) <u>the textbook</u> (B) on language acquisition <u>written by</u> (C) <u>the eminent professor</u> (D) last year (E).",
+                answerOptions: [
+                    { text: "sat", isCorrect: false, explanation: "Salah. Verb of existence/position 'sat' sudah tepat." },
+                    { text: "the textbook", isCorrect: false, explanation: "Salah. Subject tunggal sudah tepat." },
+                    { text: "written by", isCorrect: false, explanation: "Salah. Reduced adjective clause sudah tepat." },
+                    { text: "the eminent professor", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Pronoun Place Inversion",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>On the executive desk <u>lay it</u> (A) for weeks before <u>anyone noticed</u> (B) the missing document <u>concerning the budget</u> (C) <u>for the department</u> (D) audit (E).",
+                answerOptions: [
+                    { text: "anyone noticed", isCorrect: false, explanation: "Salah. Subjek + verb clause sudah tepat." },
+                    { text: "concerning the budget", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "for the department", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "audit", isCorrect: false, explanation: "Salah. Noun sudah tepat." },
+                    { text: "lay it", isCorrect: true, explanation: "Benar! Pilihan A salah. Subjek berupa pronoun ('it') tidak boleh diinversi setelah tempat. Seharusnya: 'On the executive desk, it lay...' atau 'It lay on the executive desk'." }
+                ]
+            },
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                category: "Transitive Verb Motion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Across the finish line <u>crossed the exhausted runner</u> (A) amidst cheers <u>from the crowd</u> (B) gathered <u>at the stadium</u> (C) <u>on Sunday</u> (D) morning (E).",
+                answerOptions: [
+                    { text: "from the crowd", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "at the stadium", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "crossed the exhausted runner", isCorrect: true, explanation: "Benar! Pilihan A salah. Kata 'cross' dalam konteks ini adalah transitive verb (memerlukan object langsung seperti 'the finish line'), sehingga tidak boleh diinversi langsung. Seharusnya: 'Across the finish line, the exhausted runner crossed...'." },
+                    { text: "on Sunday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "morning", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Error Analysis",
+                category: "Directional Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Into the conference hall <u>walked Prof. Mawarida Safitri</u> (A) to present <u>her groundbreaking paper</u> (B) on ethnopragmatics <u>before international scholars</u> (C) <u>this morning</u> (D) in Bali (E).",
+                answerOptions: [
+                    { text: "walked Prof. Mawarida Safitri", isCorrect: false, explanation: "Salah. Arah gerak jelas + verb of motion + noun subject (bukan pronoun) membuat inversi ini SEMPURNA." },
+                    { text: "her groundbreaking paper", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "on ethnopragmatics", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "this morning", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Error Analysis",
+                category: "Transitive Verb Hang Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>On the gallery wall <u>exhibited the artist</u> (A) several stunning paintings <u>portraying rural life</u> (B) in Central Kalimantan <u>during</u> (C) the annual <u>art exhibition</u> (D) last week (E).",
+                answerOptions: [
+                    { text: "portraying rural life", isCorrect: false, explanation: "Salah. Reduced adjective clause sudah tepat." },
+                    { text: "during", isCorrect: false, explanation: "Salah. Preposisi sudah tepat." },
+                    { text: "art exhibition", isCorrect: false, explanation: "Salah. Noun compound sudah tepat." },
+                    { text: "last week", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "exhibited the artist", isCorrect: true, explanation: "Benar! Pilihan A salah. 'exhibit' adalah transitive verb (butuh objek), sehingga haram diinversi langsung dengan subjek pelaku ('the artist')." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Error Analysis",
+                category: "Pronoun Place Inversion",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Under the heavy wooden table <u>hid they</u> (A) quietly while <u>the severe storm</u> (B) raged outside <u>throughout the night</u> (C) in the village (D) of Dieng Kulon (E).",
+                answerOptions: [
+                    { text: "the severe storm", isCorrect: false, explanation: "Salah. Subject clause sudah tepat." },
+                    { text: "throughout the night", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "hid they", isCorrect: true, explanation: "Benar! Pilihan A salah. Subjek berupa pronoun 'they' melarang inversi tempat. Seharusnya normal: 'They hid under the heavy wooden table...'." },
+                    { text: "in the village", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." },
+                    { text: "Dieng Kulon", isCorrect: false, explanation: "Salah. Proper noun sudah tepat." }
+                ]
+            },
+
+            // --- BAGIAN 3: COMPLETE THE BLANK (8 SOAL) ---
+            {
+                questionNumber: 18,
+                type: "Complete the Blank",
+                category: "Directional Inversion Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat inversi tempat berikut:<br><br>Into the PIBI room _____ Prof. Mawarida Safitri.",
+                answerOptions: [
+                    { text: "did walk", isCorrect: false, explanation: "Salah. Inversi tempat verbal tidak pakai did." },
+                    { text: "walking", isCorrect: false, explanation: "Salah. Butuh main verb." },
+                    { text: "walked", isCorrect: true, explanation: "Benar! Verb of motion 'walked' langsung mendahului subjek tanpa auxiliary." },
+                    { text: "was walk", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "she walked", isCorrect: false, explanation: "Salah. Belum diinversi." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Complete the Blank",
+                category: "Existence Verb Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat inversi tempat berikut:<br><br>Behind that building _____ a modern printing studio.",
+                answerOptions: [
+                    { text: "are", isCorrect: false, explanation: "Salah. Subjek 'studio' bersifat tunggal." },
+                    { text: "does be", isCorrect: false, explanation: "Salah. Struktur salah." },
+                    { text: "it is", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "exists", isCorrect: false, explanation: "Kurang lazim dibanding verb to be 'is'." },
+                    { text: "is", isCorrect: true, explanation: "Benar! Verb of existence 'is' diletakkan di depan subjek tunggal 'a modern printing studio'." }
+                ]
+            },
+            {
+                questionNumber: 20,
+                type: "Complete the Blank",
+                category: "Desk Sitting Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi tempat berikut:<br><br>On the desk _____ the textbook on language acquisition.",
+                answerOptions: [
+                    { text: "did sit", isCorrect: false, explanation: "Salah. Tidak pakai did." },
+                    { text: "sat", isCorrect: true, explanation: "Benar! Verb of existence/position 'sat' langsung mendahului subjek 'the textbook'." },
+                    { text: "sitting", isCorrect: false, explanation: "Salah. Butuh finite verb." },
+                    { text: "it sat", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "was sitting", isCorrect: false, explanation: "Bisa, namun 'sat' lebih tepat menggambarkan posisi eksistensi konstan." }
+                ]
+            },
+            {
+                questionNumber: 21,
+                type: "Complete the Blank",
+                category: "Cave Bats Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi tempat berikut:<br><br>Inside the cave _____ the rare bats we found.",
+                answerOptions: [
+                    { text: "was", isCorrect: false, explanation: "Salah. Subjek 'bats' berbentuk jamak." },
+                    { text: "did be", isCorrect: false, explanation: "Salah. Struktur salah." },
+                    { text: "they were", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "were", isCorrect: true, explanation: "Benar! Verb of existence 'were' berkorespondensi dengan subjek jamak 'the rare bats'." },
+                    { text: "lived", isCorrect: false, explanation: "Kurang tepat dibanding to be 'were' dalam konteks eksistensi penemuan." }
+                ]
+            },
+            {
+                questionNumber: 22,
+                type: "Complete the Blank",
+                category: "Pronoun Place Blank",
+                difficulty: "Sulit",
+                question: "Pilihlah bentuk susunan kalimat yang <strong>TEPAT</strong> untuk frasa berikut:<br><br>On the desk _____.",
+                answerOptions: [
+                    { text: "sat it", isCorrect: false, explanation: "Salah. Pronoun 'it' haram diinversi." },
+                    { text: "did it sit", isCorrect: false, explanation: "Salah. Struktur tanya keliru." },
+                    { text: "it sat", isCorrect: true, explanation: "Benar! Karena subjek berupa pronoun ('it'), inversi dilarang sehingga kembali ke urutan normal Subject + Verb." },
+                    { text: "sitting it", isCorrect: false, explanation: "Salah. Grammar salah." },
+                    { text: "was it sat", isCorrect: false, explanation: "Salah. Passive keliru." }
+                ]
+            },
+            {
+                questionNumber: 23,
+                type: "Complete the Blank",
+                category: "Background Place Blank",
+                difficulty: "Sulit",
+                question: "Pilihlah bentuk susunan kalimat yang <strong>TEPAT</strong> untuk menyatakan latar belakang aktivitas di kelas:",
+                answerOptions: [
+                    { text: "In the PIBI classroom studied Lizka Arabic syntax.", isCorrect: false, explanation: "Salah. Kelas adalah tempat latar belakang, bukan inversi." },
+                    { text: "In the PIBI classroom did Lizka study Arabic syntax.", isCorrect: false, explanation: "Salah. Struktur tanya keliru." },
+                    { text: "Studied Lizka Arabic syntax in the PIBI classroom.", isCorrect: false, explanation: "Salah. Inversi keliru." },
+                    { text: "In the PIBI classroom studying Lizka Arabic syntax.", isCorrect: false, explanation: "Salah. Participle keliru." },
+                    { text: "In the PIBI classroom, Lizka studied Arabic syntax.", isCorrect: true, explanation: "Benar! Tempat sebagai latar belakang aktivitas dipisahkan koma dengan pola normal (Subject + Verb)." }
+                ]
+            },
+            {
+                questionNumber: 24,
+                type: "Complete the Blank",
+                category: "Wall Painting Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat dengan struktur inversi tempat yang benar:<br><br>On the wall _____ a minimalist painting.",
+                answerOptions: [
+                    { text: "painted Usamah", isCorrect: false, explanation: "Salah. Paint adalah transitive verb, haram diinversi." },
+                    { text: "did paint Usamah", isCorrect: false, explanation: "Salah. Transitive verb tidak boleh diinversi." },
+                    { text: "hangs", isCorrect: true, explanation: "Benar! 'hangs' adalah intransitive verb of existence yang sempurna untuk inversi tempat ('On the wall hangs a minimalist painting')." },
+                    { text: "painting Usamah", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "it hangs", isCorrect: false, explanation: "Salah. Tidak diinversi." }
+                ]
+            },
+            {
+                questionNumber: 25,
+                type: "Complete the Blank",
+                category: "Complex Inversion Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi tempat berikut:<br><br>Across the border _____ thousands of refugees seeking safety.",
+                answerOptions: [
+                    { text: "did flee", isCorrect: false, explanation: "Salah. Inversi tempat tidak pakai did." },
+                    { text: "fleeing", isCorrect: false, explanation: "Salah. Butuh finite verb." },
+                    { text: "they fled", isCorrect: false, explanation: "Salah. Tidak diinversi." },
+                    { text: "fled", isCorrect: true, explanation: "Benar! Verb of motion 'fled' langsung mendahului subjek jamak 'thousands of refugees'." },
+                    { text: "was fled", isCorrect: false, explanation: "Salah. Active intransitive tidak dipasifkan." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            // Set Difficulty Badge Color
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-cyan-100 text-cyan-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-cyan-50 border-cyan-300 text-cyan-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-cyan-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-cyan-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 25`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
