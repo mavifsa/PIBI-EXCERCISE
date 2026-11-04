@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 16 - Inversion in Conditionals (25 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-violet-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-violet-700 text-violet-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 16: Inversion in Conditionals</h1>
+                <p class="text-violet-200 text-sm">25 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-violet-800 border border-violet-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-violet-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 25</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-violet-50 text-violet-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">🔄</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 16 (Inversion in Conditionals)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman tentang inversi kalimat pengandaian (Conditional Sentences), penghapusan konjungsi IF, penggunaan Should (Type 1), Were (Type 2), Had (Type 3), serta aturan khusus tipe 2 dengan action verb yang memunculkan Were ... to V1.
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 25 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Soal Conceptual Analysis</li>
+                    <li>Soal Error Analysis</li>
+                    <li>Soal Complete the Blank</li>
+                    <li>Kunci Jawaban</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-violet-600 font-bold">1</span> dari <span id="total-q-num">25</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-violet-100 text-violet-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-violet-600 h-2.5 rounded-full transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Kunci dan Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-violet-50 text-violet-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 25 Soal Skill 16: Inversion in Conditionals.
+            </p>
+            <div class="inline-block bg-violet-50 border border-violet-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-violet-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 25</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; LUMINA PROJECT 2026 •  TOEFL Preparation • Skill 16: Inversion in Conditionals
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            // --- BAGIAN 1: CONCEPTUAL ANALYSIS (5 SOAL) ---
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Aturan Konjungsi IF",
+                difficulty: "Mudah",
+                question: "Apa nasib konjungsi <strong>'IF'</strong> ketika sebuah kalimat pengandaian (<em>Conditional Sentence</em>) diubah ke dalam bentuk inversi?",
+                answerOptions: [
+                    { text: "Konjungsi IF wajib dipertahankan di depan auxiliary.", isCorrect: false, explanation: "Salah. Aturan emas menyatakan konjungsi IF wajib dihapus total." },
+                    { text: "Konjungsi IF dipindahkan ke tengah kalimat.", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Konjungsi IF wajib dihapus dari kalimat.", isCorrect: true, explanation: "Benar! Ketika inversi dilakukan pada conditional sentence, kata hubung IF wajib dihapus dan posisinya digantikan oleh auxiliary di depan subjek." },
+                    { text: "Konjungsi IF diubah menjadi kata 'unless'.", isCorrect: false, explanation: "Salah. Bukan aturan inversi." },
+                    { text: "Konjungsi IF digabung dengan subjek.", isCorrect: false, explanation: "Salah. IF dihilangkan." }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Auxiliary Conditional Inversi",
+                difficulty: "Sedang",
+                question: "Kata kerja bantu (<em>auxiliary</em>) apa saja yang diizinkan memicu inversi pada kalimat pengandaian di dalam tata bahasa formal dan TOEFL?",
+                answerOptions: [
+                    { text: "Should (Type 1), Were (Type 2), atau Had (Type 3).", isCorrect: true, explanation: "Benar! Inversi conditional hanya berlaku jika klausa pengandaiannya menggunakan Should, Were, atau Had." },
+                    { text: "Do, does, did.", isCorrect: false, explanation: "Salah. Do/does/did tidak digunakan untuk inversi conditional standar." },
+                    { text: "Have, has, had.", isCorrect: false, explanation: "Salah. Hanya 'had' dari kelompok ini yang diizinkan (Type 3)." },
+                    { text: "Can, could, will, would.", isCorrect: false, explanation: "Salah. Modal di luar should tidak memicu inversi conditional langsung." },
+                    { text: "Is, am, are.", isCorrect: false, explanation: "Salah. To be selain 'were' tidak memicu inversi conditional." }
+                ]
+            },
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Type 2 Action Verb Inversi",
+                difficulty: "Sedang",
+                question: "Bagaimana cara melakukan inversi pada Conditional Type 2 jika klausa pengandaiannya menggunakan <strong>Action Verb (V2)</strong> dan tidak memiliki kata 'Were'?",
+                answerOptions: [
+                    { text: "Langsung memindahkan V2 ke depan subjek.", isCorrect: false, explanation: "Salah. V2 tidak boleh langsung dipindah ke depan." },
+                    { text: "Memunculkan kata 'Were' di depan subjek dan mengubah action verb menjadi bentuk 'to + V1'.", isCorrect: true, explanation: "Benar! Jika type 2 menggunakan action verb/V2, kita wajib memunculkan 'Were' dan mengubah kata kerja aksi menjadi 'to + V1' (Were S to V1)." },
+                    { text: "Menggunakan auxiliary 'did' di depan subjek.", isCorrect: false, explanation: "Salah. Conditional inversi tidak memakai did." },
+                    { text: "Mengubah verb menjadi V3 dan menambahkan had.", isCorrect: false, explanation: "Salah. Itu mengubah makna ke tipe 3." },
+                    { text: "Menghapus subjek dan menyisakan Ving.", isCorrect: false, explanation: "Salah. Bukan aturan conditional." }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Makna Type 2",
+                difficulty: "Sulit",
+                question: "Apa fungsi konseptual dan makna dari <strong>Conditional Type 2 (Present Unreal)</strong>?",
+                answerOptions: [
+                    { text: "Menyatakan penyesalan atas kejadian masa lalu yang sudah terjadi.", isCorrect: false, explanation: "Salah. Itu adalah fungsi Type 3 (Past Unreal)." },
+                    { text: "Menyatakan kemungkinan besar terjadi di masa depan.", isCorrect: false, explanation: "Salah. Itu fungsi Type 1." },
+                    { text: "Mengkhayalkan sesuatu yang tidak nyata atau berlawanan dengan fakta saat ini (masa kini).", isCorrect: true, explanation: "Benar! Type 2 digunakan untuk pengandaian masa kini yang sifatnya khayalan atau berlawanan dengan kenyataan sekarang." },
+                    { text: "Menyatakan kebenaran umum (general truth).", isCorrect: false, explanation: "Salah. Zero conditional." },
+                    { text: "Menyatakan perintah kepada seseorang.", isCorrect: false, explanation: "Salah. Imperative." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Type 3 Inversion Structure",
+                difficulty: "Sulit",
+                question: "Bagaimanakah pola struktur susunan awal kalimat pada inversi <strong>Conditional Type 3</strong> setelah konjungsi 'IF' dihapus?",
+                answerOptions: [
+                    { text: "Were + Subject + Adj", isCorrect: false, explanation: "Salah. Itu untuk Type 2." },
+                    { text: "Had + Subject + V3", isCorrect: true, explanation: "Benar! Pada Conditional Type 3, inversi dilakukan dengan memindahkan 'Had' ke depan subjek, diikuti oleh Past Participle (V3)." },
+                    { text: "Should + Subject + V1", isCorrect: false, explanation: "Salah. Itu untuk Type 1." },
+                    { text: "Did + Subject + V1", isCorrect: false, explanation: "Salah. Tidak menggunakan did." },
+                    { text: "Had + Subject + to V1", isCorrect: false, explanation: "Salah. Pola yang benar diikuti V3." }
+                ]
+            },
+
+            // --- BAGIAN 2: ERROR ANALYSIS (12 SOAL) ---
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Type 1 Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>If <u>should we go</u> (A) to Black Canyon for grilling, <u>we will swim</u> (B) on the river <u>with our friends</u> (C) <u>next weekend</u> (D) in Central Kalimantan (E).",
+                answerOptions: [
+                    { text: "we will swim", isCorrect: false, explanation: "Salah. Main clause future tense sudah tepat." },
+                    { text: "If should we go", isCorrect: true, explanation: "Benar! Pilihan A salah. Konjungsi 'If' tidak boleh bersamaan dengan inversi 'should we go'. Seharusnya konjungsi 'If' dihapus total menjadi 'Should we go...'." },
+                    { text: "with our friends", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "next weekend", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "in Central Kalimantan", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Type 2 Were Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>If <u>were PIBI 74</u> (A) ready for the trip, <u>they would enjoy</u> (B) <u>the beautiful scenery</u> (C) <u>along the way</u> (D) to Dieng Kulon (E).",
+                answerOptions: [
+                    { text: "they would enjoy", isCorrect: false, explanation: "Salah. Main clause conditional type 2 sudah tepat." },
+                    { text: "If were PIBI 74", isCorrect: true, explanation: "Benar! Pilihan A salah. Kata 'If' wajib dihapus saat inversi 'Were PIBI 74 ready...'. Keberadaan 'If' bersamaan dengan inversi merupakan kesalahan fatal." },
+                    { text: "the beautiful scenery", isCorrect: false, explanation: "Salah. Object noun phrase sudah tepat." },
+                    { text: "along the way", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "to Dieng Kulon", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Type 3 Had Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>If <u>had Nanang managed</u> (A) his friends, <u>he would have been</u> (B) ready <u>for the academic presentation</u> (C) <u>last Monday</u> (D) in Jakarta (E).",
+                answerOptions: [
+                    { text: "he would have been", isCorrect: false, explanation: "Salah. Main clause type 3 sudah tepat." },
+                    { text: "for the academic presentation", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "If had Nanang managed", isCorrect: true, explanation: "Benar! Pilihan A salah. Konjungsi 'If' wajib dibuang pada inversi tipe 3. Seharusnya: 'Had Nanang managed his friends...'." },
+                    { text: "last Monday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "in Jakarta", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "Type 2 Action Verb Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Canceled</u> (A) Prof. Uceng the class, <u>the students</u> (B) would be <u>very happy</u> (C) <u>this morning</u> (D) at the university (E).",
+                answerOptions: [
+                    { text: "the students", isCorrect: false, explanation: "Salah. Subject main clause sudah tepat." },
+                    { text: "very happy", isCorrect: false, explanation: "Salah. Adjective complement sudah tepat." },
+                    { text: "Canceled", isCorrect: true, explanation: "Benar! Pilihan A salah. Action verb V2 ('canceled') tidak boleh langsung diinversi. Untuk tipe 2 dengan action verb, wajib menggunakan 'Were ... to cancel'." },
+                    { text: "this morning", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "at the university", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "Type 1 Correct Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Should</u> (A) the research team <u>need</u> (B) additional funding, <u>the university</u> (C) will provide <u>financial support</u> (D) immediately (E).",
+                answerOptions: [
+                    { text: "Should", isCorrect: false, explanation: "Salah. Inversi should type 1 sudah tepat." },
+                    { text: "need", isCorrect: false, explanation: "Salah. Verb dasar V1 setelah should sudah tepat." },
+                    { text: "the university", isCorrect: false, explanation: "Salah. Subject main clause sudah tepat." },
+                    { text: "financial support", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna (tanpa if, should di depan, diikuti V1)." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Type 2 Were Correct Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Were</u> (A) the laboratory equipment <u>fully operational</u> (B), <u>the researchers</u> (C) could complete <u>the delicate experiment</u> (D) successfully (E).",
+                answerOptions: [
+                    { text: "fully operational", isCorrect: false, explanation: "Salah. Adjective complement sudah tepat." },
+                    { text: "the researchers", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "the delicate experiment", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna (Were + S + Adj)." },
+                    { text: "Were", isCorrect: false, explanation: "Salah. Inversi were type 2 sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "Type 3 Correct Inversion",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Had</u> (A) the administration <u>submitted</u> (B) the proposal on time, <u>it would have been approved</u> (C) <u>by the board</u> (D) of directors (E).",
+                answerOptions: [
+                    { text: "submitted", isCorrect: false, explanation: "Salah. V3 setelah had sudah tepat." },
+                    { text: "it would have been approved", isCorrect: false, explanation: "Salah. Main clause type 3 pasif sudah tepat." },
+                    { text: "by the board", isCorrect: false, explanation: "Salah. Agent sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna (Had + S + V3)." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Inversi had type 3 sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Type 2 To-Infinitive Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Were the director <u>to resign</u> (A) from office, <u>the company</u> (B) will face <u>significant challenges</u> (C) <u>in finding</u> (D) a qualified successor (E).",
+                answerOptions: [
+                    { text: "to resign", isCorrect: false, explanation: "Salah. Pola Were S to V1 sudah tepat." },
+                    { text: "the company", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "in finding", isCorrect: false, explanation: "Salah. Gerund sudah tepat." },
+                    { text: "will face", isCorrect: true, explanation: "Benar! Pilihan C salah. Karena ini adalah Conditional Type 2 (Were... to V1), main clause wajib menggunakan Past Modal ('would face'), bukan 'will face'." },
+                    { text: "a qualified successor", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                category: "Type 3 Past Participle Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Had the linguistic team <u>analyze</u> (A) the data thoroughly, <u>they would have discovered</u> (B) the subtle semantic shifts <u>in Javanese</u> (C) body verbs <u>long ago</u> (D) in the study (E).",
+                answerOptions: [
+                    { text: "they would have discovered", isCorrect: false, explanation: "Salah. Main clause type 3 sudah tepat." },
+                    { text: "in Javanese", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "analyze", isCorrect: true, explanation: "Benar! Pilihan A salah. Setelah auxiliary 'Had' dalam inversi tipe 3, kata kerja wajib berupa Past Participle V3 ('analyzed'), bukan bentuk dasar 'analyze'." },
+                    { text: "long ago", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "in the study", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Error Analysis",
+                category: "Type 1 Base Verb Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Should you <u>submits</u> (A) your TOEFL assignment <u>before the deadline</u> (B) tomorrow, <u>the instructor</u> (C) will evaluate it <u>by evening</u> (D) in class (E).",
+                answerOptions: [
+                    { text: "before the deadline", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "the instructor", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "submits", isCorrect: true, explanation: "Benar! Pilihan A salah. Setelah auxiliary 'Should' dalam inversi tipe 1, kata kerja wajib berupa V1 dasar ('submit'), bukan 'submits'." },
+                    { text: "will evaluate it", isCorrect: false, explanation: "Salah. Main clause future sudah tepat." },
+                    { text: "by evening", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Error Analysis",
+                category: "Mixed Conditional Type Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Were the university <u>to offer</u> (A) a specialized course in lexicography, <u>PIBI students</u> (B) <u>will enroll</u> (C) <u>in large numbers</u> (D) next semester (E).",
+                answerOptions: [
+                    { text: "to offer", isCorrect: false, explanation: "Salah. Were S to V1 sudah tepat untuk type 2." },
+                    { text: "PIBI students", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "in large numbers", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "will enroll", isCorrect: true, explanation: "Benar! Pilihan C salah. Type 2 (Were... to V1) wajib berpasangan dengan 'would enroll', bukan 'will enroll'." },
+                    { text: "next semester", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Error Analysis",
+                category: "Had To V1 Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Had the committee <u>to review</u> (A) all applications yesterday, <u>they would have finished</u> (B) the evaluation process <u>ahead of schedule</u> (C) <u>last night</u> (D) in town (E).",
+                answerOptions: [
+                    { text: "to review", isCorrect: true, explanation: "Benar! Pilihan A salah. Penggunaan 'Had' dengan 'to review' keliru. Jika menggunakan 'Had' di depan, klausa harus berupa V3 ('reviewed') untuk tipe 3, atau menggunakan 'Were... to review' jika bermaksud tipe 2." },
+                    { text: "they would have finished", isCorrect: false, explanation: "Salah. Main clause type 3 sudah tepat." },
+                    { text: "ahead of schedule", isCorrect: false, explanation: "Salah. Adverbial phrase sudah tepat." },
+                    { text: "last night", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "in town", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+
+            // --- BAGIAN 3: COMPLETE THE BLANK (8 SOAL) ---
+            {
+                questionNumber: 18,
+                type: "Complete the Blank",
+                category: "Type 1 Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ we go to Black Canyon for grilling, we will swim on the river.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. Dalam inversi, konjungsi IF harus dihapus." },
+                    { text: "Were", isCorrect: false, explanation: "Salah. Were tidak berpasangan dengan verb go." },
+                    { text: "Should", isCorrect: true, explanation: "Benar! Menggunakan 'Should' di depan subjek ('Should we go...') sebagai inversi conditional Type 1." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Had berpasangan dengan V3." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did tidak digunakan." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Complete the Blank",
+                category: "Type 2 Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ PIBI 74 ready for the trip, they would enjoy it.",
+                answerOptions: [
+                    { text: "Should", isCorrect: false, explanation: "Salah. Tidak sesuai dengan complement 'ready'." },
+                    { text: "Were", isCorrect: true, explanation: "Benar! Menggunakan 'Were' di depan subjek ('Were PIBI 74 ready...') untuk inversi conditional Type 2." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Had memerlukan V3." },
+                    { text: "If", isCorrect: false, explanation: "Salah. Konjungsi IF dibuang." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Tidak tepat." }
+                ]
+            },
+            {
+                questionNumber: 20,
+                type: "Complete the Blank",
+                category: "Type 3 Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ Nanang managed his friends, he would have been ready.",
+                answerOptions: [
+                    { text: "Were", isCorrect: false, explanation: "Salah. Were diikuti V3 tidak lazim (harus had)." },
+                    { text: "Should", isCorrect: false, explanation: "Salah. Should diikuti V1." },
+                    { text: "Had", isCorrect: true, explanation: "Benar! Menggunakan 'Had' di depan subjek ('Had Nanang managed...') untuk inversi conditional Type 3." },
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did salah." }
+                ]
+            },
+            {
+                questionNumber: 21,
+                type: "Complete the Blank",
+                category: "Type 2 Action Verb Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ Prof. Uceng to cancel the class, the students would be happy.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Were", isCorrect: true, explanation: "Benar! Untuk action verb pada type 2, polanya adalah Were + S + to V1 ('Were Prof. Uceng to cancel...')." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Pola to V1 membutuhkan Were." },
+                    { text: "Should", isCorrect: false, explanation: "Salah. Pola should tidak memakai to V1." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did tidak dipakai." }
+                ]
+            },
+            {
+                questionNumber: 22,
+                type: "Complete the Blank",
+                category: "Type 1 Complex Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ any questions arise during the seminar, please raise your hand.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Should", isCorrect: true, explanation: "Benar! 'Should' diletakkan di depan subjek ('Should any questions arise...') untuk inversi Type 1." },
+                    { text: "Were", isCorrect: false, explanation: "Salah. Were tidak bertemu V1 arise." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Had bertemu V3." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did tidak dipakai." }
+                ]
+            },
+            {
+                questionNumber: 23,
+                type: "Complete the Blank",
+                category: "Type 2 Adjective Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ the weather better today, we would go for an outdoor excursion.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Were", isCorrect: true, explanation: "Benar! 'Were' diletakkan di depan subjek ('Were the weather better...') untuk inversi Type 2 bentuk nominal/adjective." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Had bertemu V3." },
+                    { text: "Should", isCorrect: false, explanation: "Salah. Should bertemu V1." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did tidak dipakai." }
+                ]
+            },
+            {
+                questionNumber: 24,
+                type: "Complete the Blank",
+                category: "Type 3 Passive Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ the manuscript been reviewed earlier, it would have been published this month.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Had", isCorrect: true, explanation: "Benar! 'Had' diletakkan di depan subjek ('Had the manuscript been reviewed...') untuk inversi Type 3 pasif." },
+                    { text: "Were", isCorrect: false, explanation: "Salah. Were tidak bertemu been." },
+                    { text: "Should", isCorrect: false, explanation: "Salah. Should tidak tepat." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did salah." }
+                ]
+            },
+            {
+                questionNumber: 25,
+                type: "Complete the Blank",
+                category: "Type 2 To-Infinitive Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat inversi conditional berikut:<br><br>_____ the government to implement the new policy, citizens would benefit significantly.",
+                answerOptions: [
+                    { text: "If", isCorrect: false, explanation: "Salah. IF dibuang." },
+                    { text: "Were", isCorrect: true, explanation: "Benar! 'Were' diletakkan di depan subjek diikuti to V1 ('Were the government to implement...') untuk inversi Type 2." },
+                    { text: "Should", isCorrect: false, explanation: "Salah. Pola to V1 membutuhkan were." },
+                    { text: "Had", isCorrect: false, explanation: "Salah. Had membutuhkan V3." },
+                    { text: "Did", isCorrect: false, explanation: "Salah. Did salah." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            // Set Difficulty Badge Color
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-violet-100 text-violet-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-violet-50 border-violet-300 text-violet-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-violet-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-violet-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 25`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
