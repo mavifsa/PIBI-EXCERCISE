@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 13 - Inversion in Question (20 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-indigo-700 text-indigo-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 13: Inversion in Question</h1>
+                <p class="text-indigo-200 text-sm">20 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-indigo-800 border border-indigo-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-indigo-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 20</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">❓</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 13 (Inversion in Question)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman tentang Inversion (perubahan urutan auxiliary dan subject), Yes/No Question, Information Question, Primary & Modal Auxiliaries, serta aturan larangan inversi ketika kalimat tanya berubah menjadi Sub Clause (Noun Clause).
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 20 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Tingkat Kesulitan: Mudah, Sedang, Sulit</li>
+                    <li>Mencakup Teori Inversi, Nominal vs Verbal, Yes/No, WH-Question, & Sub Clause</li>
+                    <li>Pilihan Jawaban: A, B, C, D, E dengan Pembahasan Rapat</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-indigo-600 font-bold">1</span> dari <span id="total-q-num">20</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-indigo-100 text-indigo-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 20 Soal Skill 13: Inversion in Question.
+            </p>
+            <div class="inline-block bg-indigo-50 border border-indigo-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-indigo-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 20</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; 2026 TOEFL Preparation • Skill 13: Inversion in Question
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            // --- BAGIAN 1: CONCEPTUAL ANALYSIS (5 SOAL) ---
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Definisi Inversi",
+                difficulty: "Mudah",
+                question: "Apa definisi utama dari <em>Inversion</em> dalam struktur kalimat bahasa Inggris?",
+                answerOptions: [
+                    { text: "Perubahan urutan elemen verb dan subject dalam kalimat.", isCorrect: true, explanation: "Benar! Inversi adalah pertukaran posisi antara auxiliary/verb dengan subject." },
+                    { text: "Penghilangan konjungsi pada adjective clause.", isCorrect: false, explanation: "Salah. Itu adalah reduksi clause." },
+                    { text: "Penggantian noun menjadi pronoun di akhir kalimat.", isCorrect: false, explanation: "Salah. Bukan definisi inversi." },
+                    { text: "Penambahan to-infinitive pada kalimat pasif.", isCorrect: false, explanation: "Salah. Tidak sesuai." },
+                    { text: "Perubahan active voice menjadi passive voice.", isCorrect: false, explanation: "Salah. Itu adalah passive transformation." }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Nominal vs Verbal",
+                difficulty: "Mudah",
+                question: "Bagaimanakah aturan pembentukan kalimat tanya (inversi) pada kalimat <strong>nominal</strong> dibandingkan kalimat verbal?",
+                answerOptions: [
+                    { text: "Kalimat nominal tidak memerlukan auxiliary untuk inversinya, melainkan langsung memindahkan to be ke depan subject.", isCorrect: true, explanation: "Benar! Pada kalimat nominal, to be (is/am/are/was/were) langsung dipindah ke depan subject tanpa auxiliary tambahan." },
+                    { text: "Kalimat nominal wajib menggunakan auxiliary 'do/does/did'.", isCorrect: false, explanation: "Salah. 'do/does/did' hanya untuk kalimat verbal." },
+                    { text: "Kalimat nominal tidak bisa diubah menjadi kalimat tanya.", isCorrect: false, explanation: "Salah. Kalimat nominal sangat bisa diinversi." },
+                    { text: "Kalimat nominal memerlukan modal auxiliary ganda.", isCorrect: false, explanation: "Salah. Tidak diperlukan." },
+                    { text: "Kalimat nominal menggunakan pola WH-word tanpa verb.", isCorrect: false, explanation: "Salah. Tetap memerlukan to be." }
+                ]
+            },
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Modal Auxiliary Rule",
+                difficulty: "Sedang",
+                question: "Ketentuan apa yang wajib dipatuhi setelah penggunaan <strong>Modal Auxiliary</strong> (seperti <em>can, could, will, should</em>) dalam kalimat verbal?",
+                answerOptions: [
+                    { text: "Wajib diikuti oleh verb dasar (V1).", isCorrect: true, explanation: "Benar! Setelah modal auxiliary, bentuk kata kerja wajib berupa V1 dasar." },
+                    { text: "Wajib diikuti oleh Past Participle (V3).", isCorrect: false, explanation: "Salah. V3 setelah have/has/had." },
+                    { text: "Wajib diikuti oleh Present Participle (Ving).", isCorrect: false, explanation: "Salah. Ving setelah to be." },
+                    { text: "Wajib diikuti oleh to-infinitive.", isCorrect: false, explanation: "Salah. Modal langsung bertemu V1 tanpa 'to'." },
+                    { text: "Wajib diikuti oleh noun clause.", isCorrect: false, explanation: "Salah. Tidak berkaitan dengan klausa." }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Sub Clause Rule",
+                difficulty: "Sedang",
+                question: "Apa yang terjadi pada susunan kata (inversi) ketika sebuah kalimat tanya berubah menjadi <strong>Sub Clause</strong> (Noun Clause)?",
+                answerOptions: [
+                    { text: "Inversi tidak berlaku; susunan kata kembali ke bentuk deklaratif biasa (Subject + Verb) setelah konjungsi.", isCorrect: true, explanation: "Benar! Ketika kalimat tanya masuk ke dalam Sub Clause, pola inversi dibatalkan dan kembali ke struktur normal Conj + S + V." },
+                    { text: "Susunan inversi diperketat dengan double auxiliary.", isCorrect: false, explanation: "Salah. Inversi justru ditiadakan." },
+                    { text: "Konjungsi dihapus dan auxiliary diletakkan di awal sub clause.", isCorrect: false, explanation: "Salah. Konjungsi wajib ada." },
+                    { text: "Verb di dalam sub clause wajib diubah menjadi V3.", isCorrect: false, explanation: "Salah. Tenses menyesuaikan konteks." },
+                    { text: "Sub clause harus selalu menggunakan kalimat perintah.", isCorrect: false, explanation: "Salah. Sub clause adalah pernyataan." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Yes/No Question",
+                difficulty: "Sulit",
+                question: "Apa karakteristik pembeda utama antara <strong>Yes/No Question</strong> dan <strong>Information Question</strong> dalam struktur kalimat?",
+                answerOptions: [
+                    { text: "Yes/No Question tidak menggunakan WH-word dan dijawab dengan ya/tidak, sedangkan Information Question diawali WH-word.", isCorrect: true, explanation: "Benar! Yes/No question langsung diawali auxiliary/to be tanpa kata tanya (WH-word), sedangkan Information question diawali WH-word." },
+                    { text: "Yes/No Question menggunakan pola deklaratif S + V.", isCorrect: false, explanation: "Salah. Yes/No question mengalami inversi." },
+                    { text: "Information question tidak mengalami inversi sama sekali.", isCorrect: false, explanation: "Salah. Information question juga mengalami inversi (WH + aux + S + V)." },
+                    { text: "Yes/No Question hanya boleh menggunakan modal auxiliary.", isCorrect: false, explanation: "Salah. Bisa menggunakan primary auxiliary." },
+                    { text: "Information question tidak memerlukan subject.", isCorrect: false, explanation: "Salah. Subject tetap ada." }
+                ]
+            },
+
+            // --- BAGIAN 2: ERROR ANALYSIS (8 SOAL) ---
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Nominal Inversion Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Does</u> (A) the university president <u>aware</u> (B) of the <u>recent policy changes</u> (C) announced <u>last Monday</u> (D) by the board (E)?",
+                answerOptions: [
+                    { text: "Does", isCorrect: true, explanation: "Benar! Pilihan A salah. Kata 'aware' adalah adjective (kalimat nominal), sehingga tidak boleh menggunakan auxiliary 'Does'. Seharusnya 'Is the university president aware...'." },
+                    { text: "aware", isCorrect: false, explanation: "Salah. Adjective sudah tepat." },
+                    { text: "recent policy changes", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "last Monday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "the board", isCorrect: false, explanation: "Salah. Noun sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Modal Verb Form Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Can <u>the committee</u> (A) <u>revises</u> (B) the proposal <u>before the deadline</u> (C) <u>next week</u> (D) without major issues (E)?",
+                answerOptions: [
+                    { text: "the committee", isCorrect: false, explanation: "Salah. Subject sudah tepat." },
+                    { text: "revises", isCorrect: true, explanation: "Benar! Pilihan B salah. Setelah modal auxiliary 'Can', verb wajib berbentuk V1 dasar ('revise'), bukan 'revises'." },
+                    { text: "before the deadline", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "next week", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "without major issues", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Sub Clause Inversion Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Everyone in the seminar <u>wants to know</u> (A) <u>when will the keynote speaker</u> (B) <u>arrive</u> (C) from Jakarta <u>this evening</u> (D) at the airport (E).",
+                answerOptions: [
+                    { text: "wants to know", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "when will the keynote speaker", isCorrect: true, explanation: "Benar! Pilihan B salah. Ini adalah Noun Clause, sehingga susunan inversion ditiadakan dan kembali ke pola deklaratif (when the keynote speaker will arrive)." },
+                    { text: "arrive", isCorrect: false, explanation: "Salah. Verb dasar setelah will sudah tepat." },
+                    { text: "this evening", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "at the airport", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "Sub Clause Nominal Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The director <u>is asking</u> (A) <u>if is the laboratory</u> (B) fully equipped <u>for the upcoming</u> (C) <u>research project</u> (D) this semester (E).",
+                answerOptions: [
+                    { text: "is asking", isCorrect: false, explanation: "Salah. Predikat utama sudah tepat." },
+                    { text: "if is the laboratory", isCorrect: true, explanation: "Benar! Pilihan B salah. Dalam Noun Clause setelah 'if', inversi tidak berlaku (harus berbunyi 'if the laboratory is fully equipped')." },
+                    { text: "for the upcoming", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "research project", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "this semester", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "Information Question Inversion",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Why <u>the research team</u> (A) <u>delayed</u> (B) the publication <u>of the findings</u> (C) despite <u>the pressure</u> (D) from sponsors (E)?",
+                answerOptions: [
+                    { text: "the research team", isCorrect: true, explanation: "Benar! Pilihan A salah. Kalimat tanya langsung (information question) wajib mengalami inversi (Why did the research team delay...). Karena tidak ada auxiliary, bentuk lampau memerlukan 'did'." },
+                    { text: "delayed", isCorrect: false, explanation: "Salah. Mengikuti auxiliary did." },
+                    { text: "of the findings", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "the pressure", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "from sponsors", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Modal Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br><u>Could</u> (A) you <u>explains</u> (B) how this linguistic theory <u>applies</u> (C) to Javanese body verbs <u>in everyday conversation</u> (D) among native speakers (E)?",
+                answerOptions: [
+                    { text: "Could", isCorrect: false, explanation: "Salah. Modal auxiliary di awal sudah tepat untuk inversi." },
+                    { text: "explains", isCorrect: true, explanation: "Benar! Pilihan B salah. Setelah modal 'Could', kata kerja wajib berupa V1 dasar ('explain'), bukan 'explains'." },
+                    { text: "applies", isCorrect: false, explanation: "Salah. Verb clause sudah tepat." },
+                    { text: "in everyday conversation", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "among native speakers", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "Sub Clause WH Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The professor wonders <u>why did the students</u> (A) <u>miss</u> (B) the mandatory lecture <u>on ethnopragmatics</u> (C) <u>last Friday</u> (D) afternoon (E).",
+                answerOptions: [
+                    { text: "why did the students", isCorrect: true, explanation: "Benar! Pilihan A salah. Noun Clause setelah 'why' tidak boleh menggunakan inversi tanya. Seharusnya 'why the students missed'." },
+                    { text: "miss", isCorrect: false, explanation: "Salah. Verb dasar sudah tepat." },
+                    { text: "on ethnopragmatics", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "last Friday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "afternoon", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Primary Aux Inversion Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Have <u>the administrative staff</u> (A) <u>finish</u> (B) processing <u>all applications</u> (C) for <u>the upcoming semester</u> (D) in the department (E)?",
+                answerOptions: [
+                    { text: "Have", isCorrect: false, explanation: "Salah. Primary auxiliary di awal sudah tepat." },
+                    { text: "finish", isCorrect: true, explanation: "Benar! Pilihan B salah. Setelah auxiliary 'Have' dalam kalimat sempurna (present perfect), verb wajib berbentuk Past Participle V3 ('finished'), bukan 'finish'." },
+                    { text: "all applications", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "the upcoming semester", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "in the department", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." }
+                ]
+            },
+
+            // --- BAGIAN 3: COMPLETE THE BLANK (7 SOAL) ---
+            {
+                questionNumber: 14,
+                type: "Complete the Blank",
+                category: "Nominal Question Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat tanya nominal berikut:<br><br>_____ Prof. Uceng very famous across the country?",
+                answerOptions: [
+                    { text: "Does", isCorrect: false, explanation: "Salah. Kalimat nominal menggunakan to be, bukan does." },
+                    { text: "Is", isCorrect: true, explanation: "Benar! Kalimat nominal menggunakan to be 'Is' di depan subject tanpa auxiliary tambahan." },
+                    { text: "Has", isCorrect: false, explanation: "Salah. Tidak sesuai." },
+                    { text: "Do", isCorrect: false, explanation: "Salah. Tidak sesuai." },
+                    { text: "Are", isCorrect: false, explanation: "Salah. Subjek Prof. Uceng adalah singular (Is)." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Complete the Blank",
+                category: "Modal Question Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat tanya berikut:<br><br>_____ you speak English fluently during the interview?",
+                answerOptions: [
+                    { text: "Are", isCorrect: false, explanation: "Salah. Diikuti verb dasar speak." },
+                    { text: "Can", isCorrect: true, explanation: "Benar! Modal auxiliary 'Can' diletakkan di depan subject untuk membentuk kalimat tanya." },
+                    { text: "Does", isCorrect: false, explanation: "Salah. Subject 'you' menggunakan 'Do'." },
+                    { text: "Has", isCorrect: false, explanation: "Salah. Diikuti V3." },
+                    { text: "Is", isCorrect: false, explanation: "Salah. Subject you menggunakan are." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Complete the Blank",
+                category: "Information Question Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat tanya information question berikut:<br><br>When _____ you go for KKL in Bali with your classmates?",
+                answerOptions: [
+                    { text: "will", isCorrect: true, explanation: "Benar! Pola Information Question adalah WH-word + aux + S + V ('When will you go...')." },
+                    { text: "you will", isCorrect: false, explanation: "Salah. Belum mengalami inversi." },
+                    { text: "going", isCorrect: false, explanation: "Salah. Membutuhkan modal/aux." },
+                    { text: "are go", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "did you went", isCorrect: false, explanation: "Salah. Setelah did harus V1 (go), bukan went." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Complete the Blank",
+                category: "Sub Clause Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat noun clause berikut:<br><br>Usamah asks if Ainun _____ Arabic syntax.",
+                answerOptions: [
+                    { text: "studies", isCorrect: true, explanation: "Benar! Dalam Noun Clause setelah 'if', inversi ditiadakan dan menggunakan pola deklaratif tunggal ('studies')." },
+                    { text: "does study", isCorrect: false, explanation: "Kurang tepat dibanding present tense tunggal 'studies'." },
+                    { text: "study", isCorrect: false, explanation: "Salah. Subject Ainun singular." },
+                    { text: "is study", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "studied does", isCorrect: false, explanation: "Salah. Struktur salah." }
+                ]
+            },
+            {
+                questionNumber: 18,
+                type: "Complete the Blank",
+                category: "Sub Clause WH Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat noun clause berikut:<br><br>Mursal is curious when he _____ for KKL in Bali.",
+                answerOptions: [
+                    { text: "will go", isCorrect: true, explanation: "Benar! Dalam Noun Clause, susunan kembali normal Subject + Verb ('when he will go')." },
+                    { text: "will goes", isCorrect: false, explanation: "Salah. Setelah modal will harus V1 dasar." },
+                    { text: "will going", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "going will", isCorrect: false, explanation: "Salah. Struktur inversi." },
+                    { text: "go will", isCorrect: false, explanation: "Salah. Struktur terbalik." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Complete the Blank",
+                category: "Perfect Tense Question Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat tanya perfect tense berikut:<br><br>_____ you finished the test before the supervisor collected the answer sheets?",
+                answerOptions: [
+                    { text: "Have", isCorrect: true, explanation: "Benar! Primary auxiliary 'Have' diletakkan di depan subject 'you' diikuti V3 'finished'." },
+                    { text: "Has", isCorrect: false, explanation: "Salah. Subject you menggunakan 'Have'." },
+                    { text: "Did", isCorrect: false, explanation: "Jika did, verb harus finish (V1), bukan finished." },
+                    { text: "Are", isCorrect: false, explanation: "Salah. Tidak sesuai dengan finished." },
+                    { text: "Do", isCorrect: false, explanation: "Salah. Tidak sesuai." }
+                ]
+            },
+            {
+                questionNumber: 20,
+                type: "Complete the Blank",
+                category: "Complex Noun Clause Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat noun clause berikut:<br><br>Everyone in PIBI class knows whose number _____.",
+                answerOptions: [
+                    { text: "it is", isCorrect: true, explanation: "Benar! Dalam Noun Clause nominal, inversi ditiadakan sehingga kembali ke urutan Subject + Verb ('whose number it is')." },
+                    { text: "is it", isCorrect: false, explanation: "Salah. 'is it' adalah pola pertanyaan langsung (inversi)." },
+                    { text: "it was be", isCorrect: false, explanation: "Salah. Grammar keliru." },
+                    { text: "is its", isCorrect: false, explanation: "Salah. Keliru." },
+                    { text: "does it", isCorrect: false, explanation: "Salah. Tidak sesuai." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            // Set Difficulty Badge Color
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-indigo-50 border-indigo-300 text-indigo-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-indigo-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 20`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
