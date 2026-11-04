@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis TOEFL Interaktif: Skill 17 - Inversion in Comparisons (25 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-emerald-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="bg-emerald-700 text-emerald-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">TOEFL Grammar Mastery</span>
+                <h1 class="text-2xl font-bold mt-1">Skill 17: Inversion in Comparisons</h1>
+                <p class="text-emerald-200 text-sm">25 Soal Interaktif (Conceptual Analysis, Error Analysis, & Complete the Blank)</p>
+            </div>
+            <div id="score-badge" class="hidden bg-emerald-800 border border-emerald-600 px-4 py-2 rounded-xl text-center">
+                <span class="block text-xs text-emerald-300">Skor Akhir</span>
+                <span id="final-score-text" class="text-xl font-bold text-white">0 / 25</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">⚖️</div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 17 (Inversion in Comparisons)</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6">
+                Uji pemahaman tentang inversi setelah ekspresi perbandingan, penggunaan Auxiliary, dan larangan inversi.
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
+                <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 25 Soal):</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Soal Conceptual Analysis</li>
+                    <li>Soal Error Analysis</li>
+                    <li>Soal Complete the Blank</li>
+                    <li>Kunci Jawaban</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
+                Mulai Kuis Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress Bar & Info -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-sm font-semibold text-slate-600">
+                    Soal <span id="current-q-num" class="text-emerald-600 font-bold">1</span> dari <span id="total-q-num">25</span>
+                    <span id="difficulty-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium"></span>
+                    <span id="category-badge" class="ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800"></span>
+                </div>
+                <div class="w-1/3 md:w-1/2 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+                <!-- Question Type Tag -->
+                <div>
+                    <span id="question-type-tag" class="text-xs font-semibold px-3 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"></span>
+                </div>
+
+                <div id="question-text" class="text-lg md:text-xl font-medium text-slate-900 leading-relaxed">
+                    <!-- Dynamic Question Text -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Rationale Box (Hidden initially) -->
+                <div id="explanation-box" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2">
+                    <div class="font-bold text-slate-900 flex items-center gap-2">
+                        <span>💡 Kunci dan Pembahasan Lengkap Pilihan Jawaban</span>
+                    </div>
+                    <div id="explanation-text" class="text-slate-700 space-y-1.5 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-sm">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-6">
+            <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h2>
+            <p class="text-slate-600 max-w-md mx-auto">
+                Selamat, Anda telah menyelesaikan simulasi 25 Soal Skill 17: Inversion in Comparisons.
+            </p>
+            <div class="inline-block bg-emerald-50 border border-emerald-200 rounded-2xl px-8 py-4">
+                <span id="final-score-display" class="text-4xl font-extrabold text-emerald-600">0</span>
+                <span class="text-xl text-slate-500 font-semibold"> / 25</span>
+            </div>
+            <div>
+                <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl transition shadow-sm">
+                    Ulangi Kuis
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 bg-white mt-12">
+        &copy; LUMINA PROJECT 2026 • TOEFL Preparation • Skill 17: Inversion in Comparisons
+    </footer>
+
+    <!-- Script Quiz Logic -->
+    <script>
+        const questionsData = [
+            // --- BAGIAN 1: CONCEPTUAL ANALYSIS (5 SOAL) ---
+            {
+                questionNumber: 1,
+                type: "Conceptual Analysis",
+                category: "Sifat Inversi Perbandingan",
+                difficulty: "Mudah",
+                question: "Bagaimanakah sifat penerapan struktur inversi pada ekspresi perbandingan (<em>Comparisons</em>) setelah kata <em>than</em> atau <em>as</em>?",
+                answerOptions: [
+                    { text: "Wajib diinversi pada semua jenis kalimat perbandingan.", isCorrect: false, explanation: "Salah. Inversi perbandingan tidak bersifat wajib." },
+                    { text: "Hanya berlaku untuk kalimat negatif.", isCorrect: false, explanation: "Salah. Berlaku juga pada kalimat positif." },
+                    { text: "Sifatnya opsional (boleh diinversi, boleh tidak); kedua bentuknya sama-sama dianggap benar dan formal.", isCorrect: true, explanation: "Benar! Inversi setelah kata than atau as bersifat opsional; baik pola normal (S + V) maupun terbalik (aux/be + S) sama-sama tepat." },
+                    { text: "Dilarang keras diinversi jika menggunakan kata kerja aksi.", isCorrect: false, explanation: "Salah. Kata kerja aksi tetap boleh diinversi dengan do/does/did." },
+                    { text: "Hanya diizinkan pada pengandaian tipe 2.", isCorrect: false, explanation: "Salah. Itu adalah aturan conditional skill 16." }
+                ]
+            },
+            {
+                questionNumber: 2,
+                type: "Conceptual Analysis",
+                category: "Larangan Pronoun Perbandingan",
+                difficulty: "Sedang",
+                question: "Kapan inversi pada ekspresi perbandingan (<em>than/as</em>) <strong>TIDAK BOLEH</strong> dilakukan sama sekali?",
+                answerOptions: [
+                    { text: "Jika subjek pembanding di bagian belakang berupa kata benda tunggal.", isCorrect: false, explanation: "Salah. Kata benda tunggal boleh diinversi." },
+                    { text: "Jika subjek pembanding di bagian belakang berupa kata ganti (Pronoun seperti he, she, it, they, we, you, I).", isCorrect: true, explanation: "Benar! Sama seperti Skill 14, jika subjek pembanding berupa pronoun, inversi haram dilakukan (seharusnya: 'than she does', bukan 'than does she')." },
+                    { text: "Jika predikat klausa utama berupa to be.", isCorrect: false, explanation: "Salah. To be tetap bisa diinversi." },
+                    { text: "Jika kata pembanding yang digunakan adalah 'as'.", isCorrect: false, explanation: "Salah. Kata 'as' mendukung inversi." },
+                    { text: "Jika kalimat berbentuk perbandingan setara (equality).", isCorrect: false, explanation: "Salah. Perbandingan setara (as... as) juga bisa diinversi." }
+                ]
+            },
+            {
+                questionNumber: 3,
+                type: "Conceptual Analysis",
+                category: "Verb Agreement Pembanding",
+                difficulty: "Sedang",
+                question: "Bagaimana aturan pemilihan kata kerja bantu (<em>auxiliary</em>) atau kata kerja <em>be</em> pada klausa pembanding setelah <em>than/as</em>?",
+                answerOptions: [
+                    { text: "Selalu menggunakan auxiliary 'did' tanpa mempedulikan kalimat utama.", isCorrect: false, explanation: "Salah. Harus disesuaikan dengan jenis predikat pada klausa utama." },
+                    { text: "Wajib menggunakan modal auxiliary seperti 'will' atau 'would'.", isCorrect: false, explanation: "Salah. Mengikuti struktur kalimat utama." },
+                    { text: "Kata bantu pembanding wajib selaras (verb agreement): jika kalimat utama nominal (be) maka pembanding menggunakan be, jika kalimat utama verbal maka pembanding menggunakan do/does/did.", isCorrect: true, explanation: "Benar! Auxiliary atau be pada bagian pembanding harus selaras dengan predikat pada klausa utama." },
+                    { text: "Menggunakan kata kerja utama V1 tanpa kata bantu.", isCorrect: false, explanation: "Salah. Inversi menggunakan kata bantu." },
+                    { text: "Auxiliary dihilangkan total dalam inversi perbandingan.", isCorrect: false, explanation: "Salah. Auxiliary diletakkan di depan subjek." }
+                ]
+            },
+            {
+                questionNumber: 4,
+                type: "Conceptual Analysis",
+                category: "Struktur Dasar Inversi Comparison",
+                difficulty: "Sulit",
+                question: "Manakah dari susunan pola berikut yang menggambarkan rumus inversi perbandingan setelah kata <em>than</em> atau <em>as</em> yang <strong>BENAR</strong>?",
+                answerOptions: [
+                    { text: "S + V + Comparison + than/as + Subject + aux/be", isCorrect: false, explanation: "Salah. Itu adalah pola normal (tidak diinversi)." },
+                    { text: "S + V + Comparison + than/as + aux/be + Subject", isCorrect: true, explanation: "Benar! Pola inversi perbandingan memajukan auxiliary atau be ke depan subjek pembanding." },
+                    { text: "S + V + Comparison + aux/be + than/as + Subject", isCorrect: false, explanation: "Salah. Tata letak kata pembanding keliru." },
+                    { text: "Comparison + S + V + than/as + aux/be + Subject", isCorrect: false, explanation: "Salah. Struktur klausa depan terbalik." },
+                    { text: "S + aux/be + V + Comparison + than/as + Subject", isCorrect: false, explanation: "Salah. Posisi aux/be di pembanding tidak diinversi." }
+                ]
+            },
+            {
+                questionNumber: 5,
+                type: "Conceptual Analysis",
+                category: "Perbandingan Positif vs Negatif",
+                difficulty: "Sulit",
+                question: "Bagaimana perlakuan inversi pada kata pembanding <strong>'as'</strong> dalam kalimat negatif (menggunakan bentuk <em>'not so... as'</em> atau <em>'not as... as'</em>)?",
+                answerOptions: [
+                    { text: "Inversi tetap legal dan dapat diterapkan pada klausa pembanding di belakang.", isCorrect: true, explanation: "Benar! Baik kalimat positif maupun negatif, klausa pembanding setelah 'as' tetap diizinkan mengalami inversi." },
+                    { text: "Inversi dilarang keras untuk kalimat negatif.", isCorrect: false, explanation: "Salah. Kalimat negatif dengan 'as' tetap boleh diinversi." },
+                    { text: "Kata 'as' wajib diganti dengan 'than' jika diinversi.", isCorrect: false, explanation: "Salah. Kata 'as' tetap dipertahankan." },
+                    { text: "Auxiliary wajib ditempatkan di depan kata 'not'.", isCorrect: false, explanation: "Salah. Posisi not ada di klausa utama." },
+                    { text: "Inversi mengubah makna negatif menjadi positif.", isCorrect: false, explanation: "Salah. Inversi tidak mengubah polaritas makna." }
+                ]
+            },
+
+            // --- BAGIAN 2: ERROR ANALYSIS (12 SOAL) ---
+            {
+                questionNumber: 6,
+                type: "Error Analysis",
+                category: "Pronoun Inversion Comparison Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Prof. Ilham <u>knows</u> (A) more about <u>ethnopragmatics</u> (B) and linguistics <u>than does she</u> (C) <u>in this faculty</u> (D) today (E).",
+                answerOptions: [
+                    { text: "knows", isCorrect: false, explanation: "Salah. Verb singular sudah tepat disesuaikan dengan Prof. Ilham." },
+                    { text: "ethnopragmatics", isCorrect: false, explanation: "Salah. Noun bidang studi sudah tepat." },
+                    { text: "than does she", isCorrect: true, explanation: "Benar! Pilihan C salah. Jika subjek pembanding berupa pronoun ('she'), inversi HARAM dilakukan. Seharusnya normal: 'than she does'." },
+                    { text: "in this faculty", isCorrect: false, explanation: "Salah. Prepositional phrase tempat sudah tepat." },
+                    { text: "today", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 7,
+                type: "Error Analysis",
+                category: "Verb Agreement Be vs Do Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Buahlil <u>is</u> (A) much <u>sweeter</u> (B) than <u>does</u> (C) <u>bolu ketan</u> (D) baked by Lumina Project (E).",
+                answerOptions: [
+                    { text: "is", isCorrect: false, explanation: "Salah. Nominal verb to be sudah tepat." },
+                    { text: "sweeter", isCorrect: false, explanation: "Salah. Comparative adjective sudah tepat." },
+                    { text: "does", isCorrect: true, explanation: "Benar! Pilihan C salah. Klausa utama menggunakan nominal verb ('is'), maka pembandingnya wajib berupa 'is', bukan auxiliary verbal 'does'." },
+                    { text: "bolu ketan", isCorrect: false, explanation: "Salah. Subjek pembanding sudah tepat." },
+                    { text: "baked by Lumina Project", isCorrect: false, explanation: "Salah. Reduced passive clause sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 8,
+                type: "Error Analysis",
+                category: "Verb Agreement Do vs Be Error",
+                difficulty: "Mudah",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Hasan <u>speaks</u> (A) <u>Javanese language</u> (B) better <u>than is Alfa</u> (C) <u>in our language class</u> (D) this semester (E).",
+                answerOptions: [
+                    { text: "speaks", isCorrect: false, explanation: "Salah. Action verb V1 sudah tepat." },
+                    { text: "Javanese language", isCorrect: false, explanation: "Salah. Direct object sudah tepat." },
+                    { text: "than is Alfa", isCorrect: true, explanation: "Benar! Pilihan C salah. Klausa utama menggunakan action verb ('speaks'), maka kata bantu pembanding wajib berupa auxiliary 'does' ('than does Alfa'), bukan to be 'is'." },
+                    { text: "in our language class", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "this semester", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 9,
+                type: "Error Analysis",
+                category: "As Inversion Correct Verbal",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Hasan <u>speaks</u> (A) Javanese <u>as fluently as</u> (B) <u>does Alfa</u> (C) during <u>academic discussions</u> (D) at the institute (E).",
+                answerOptions: [
+                    { text: "speaks", isCorrect: false, explanation: "Salah. Verbal main verb sudah tepat." },
+                    { text: "as fluently as", isCorrect: false, explanation: "Salah. Equality comparison adverb sudah tepat." },
+                    { text: "does Alfa", isCorrect: false, explanation: "Salah. Inversi auxiliary 'does' + noun subject 'Alfa' sudah tepat." },
+                    { text: "academic discussions", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 10,
+                type: "Error Analysis",
+                category: "As Inversion Positive Be Correct",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Naely <u>was</u> (A) <u>as curious about</u> (B) Comal city <u>as were her friends</u> (C) <u>during their trip</u> (D) last month (E).",
+                answerOptions: [
+                    { text: "was", isCorrect: false, explanation: "Salah. Past nominal verb sudah tepat." },
+                    { text: "as curious about", isCorrect: false, explanation: "Salah. Equality adjective phrase sudah tepat." },
+                    { text: "as were her friends", isCorrect: false, explanation: "Salah. Inversi to be 'were' + plural noun subject 'her friends' sudah tepat." },
+                    { text: "during their trip", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat ini sudah sempurna." }
+                ]
+            },
+            {
+                questionNumber: 11,
+                type: "Error Analysis",
+                category: "Negative As Inversion Correct",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Naely <u>was not</u> (A) <u>so curious about</u> (B) Comal city <u>as were her friends</u> (C) <u>on their excursion</u> (D) last week (E).",
+                answerOptions: [
+                    { text: "was not", isCorrect: false, explanation: "Salah. Negative past verb sudah tepat." },
+                    { text: "so curious about", isCorrect: false, explanation: "Salah. Adjective phrase setelah 'not so' sudah tepat." },
+                    { text: "as were her friends", isCorrect: false, explanation: "Salah. Inversi klausa pembanding pada kalimat negatif tetap sah dan tepat." },
+                    { text: "on their excursion", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "TIDAK ADA KESALAHAN (All correct)", isCorrect: true, explanation: "Benar! Kalimat negatif dengan 'not so... as' diinversi dengan sempurna." }
+                ]
+            },
+            {
+                questionNumber: 12,
+                type: "Error Analysis",
+                category: "Pronoun Inversion Comparison They Error",
+                difficulty: "Sedang",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The senior students <u>completed</u> (A) <u>the grammar module</u> (B) faster <u>than did they</u> (C) last academic <u>year</u> (D) in Semarang (E).",
+                answerOptions: [
+                    { text: "completed", isCorrect: false, explanation: "Salah. Past action verb sudah tepat." },
+                    { text: "the grammar module", isCorrect: false, explanation: "Salah. Object sudah tepat." },
+                    { text: "than did they", isCorrect: true, explanation: "Benar! Pilihan C salah. Subjek pembanding berupa pronoun ('they') dilarang mengalami inversi. Seharusnya normal: 'than they did'." },
+                    { text: "year", isCorrect: false, explanation: "Salah. Noun waktu sudah tepat." },
+                    { text: "in Semarang", isCorrect: false, explanation: "Salah. Keterangan tempat sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 13,
+                type: "Error Analysis",
+                category: "Past Verb Agreement Comparison Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The result <u>of the first experiment</u> (A) <u>was</u> (B) far more accurate <u>than did the second one</u> (C) conducted <u>in the laboratory</u> (D) yesterday (E).",
+                answerOptions: [
+                    { text: "of the first experiment", isCorrect: false, explanation: "Salah. Modifier noun phrase sudah tepat." },
+                    { text: "was", isCorrect: false, explanation: "Salah. Past nominal verb disesuaikan dengan 'The result' sudah tepat." },
+                    { text: "than did the second one", isCorrect: true, explanation: "Benar! Pilihan C salah. Karena predikat utama adalah nominal 'was', maka klausa pembanding wajib diinversi menggunakan 'was' ('than was the second one'), bukan auxiliary verbal 'did'." },
+                    { text: "in the laboratory", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "yesterday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 14,
+                type: "Error Analysis",
+                category: "Plural Be Agreement Comparison Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The new printing machines <u>are</u> (A) <u>much more efficient</u> (B) than <u>was the old models</u> (C) used <u>by Lumina Project</u> (D) last year (E).",
+                answerOptions: [
+                    { text: "are", isCorrect: false, explanation: "Salah. Plural present verb sudah tepat disesuaikan dengan 'machines'." },
+                    { text: "much more efficient", isCorrect: false, explanation: "Salah. Comparative adjective phrase sudah tepat." },
+                    { text: "was the old models", isCorrect: true, explanation: "Benar! Pilihan C salah. Subjek pembanding 'the old models' berbentuk jamak (plural), sehingga kata bantu be pasca inversi harus berbentuk 'were' ('than were the old models'), bukan 'was'." },
+                    { text: "by Lumina Project", isCorrect: false, explanation: "Salah. Prepositional agent sudah tepat." },
+                    { text: "last year", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 15,
+                type: "Error Analysis",
+                category: "Did vs Does Tense Comparison Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Prof. Uceng <u>explained</u> (A) <u>the semantic metalanguage</u> (B) concept more clearly <u>than does Dr. Mawarida</u> (C) in <u>the lecture</u> (D) yesterday (E).",
+                answerOptions: [
+                    { text: "explained", isCorrect: false, explanation: "Salah. Past action verb sudah tepat disesuaikan keterangan 'yesterday'." },
+                    { text: "the semantic metalanguage", isCorrect: false, explanation: "Salah. Noun modifier sudah tepat." },
+                    { text: "than does Dr. Mawarida", isCorrect: true, explanation: "Benar! Pilihan C salah. Karena kejadian berada di masa lalu (past tense 'explained' & 'yesterday'), kata bantu inversi harus berupa past auxiliary 'did' ('than did Dr. Mawarida'), bukan present 'does'." },
+                    { text: "the lecture", isCorrect: false, explanation: "Salah. Noun tempat/kegiatan sudah tepat." },
+                    { text: "yesterday", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 16,
+                type: "Error Analysis",
+                category: "Action Verb Plural Comparison Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The research assistants <u>analyze</u> (A) Javanese <u>body-action verbs</u> (B) more thoroughly <u>than does the undergraduate students</u> (C) <u>in the department</u> (D) today (E).",
+                answerOptions: [
+                    { text: "analyze", isCorrect: false, explanation: "Salah. Present action verb plural sudah tepat." },
+                    { text: "body-action verbs", isCorrect: false, explanation: "Salah. Compound noun sudah tepat." },
+                    { text: "than does the undergraduate students", isCorrect: true, explanation: "Benar! Pilihan C salah. Subjek pembanding 'the undergraduate students' berbentuk jamak (plural), sehingga auxiliary inversi present harus berupa 'do' ('than do the undergraduate students'), bukan singular 'does'." },
+                    { text: "in the department", isCorrect: false, explanation: "Salah. Prepositional phrase sudah tepat." },
+                    { text: "today", isCorrect: false, explanation: "Salah. Keterangan waktu sudah tepat." }
+                ]
+            },
+            {
+                questionNumber: 17,
+                type: "Error Analysis",
+                category: "Pronoun Inversion Object Pronoun Error",
+                difficulty: "Sulit",
+                question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Lizka <u>understands</u> (A) <u>Arabic syntax</u> (B) much better <u>than does him</u> (C) <u>after completing</u> (D) the intensive course (E).",
+                answerOptions: [
+                    { text: "understands", isCorrect: false, explanation: "Salah. Present action verb singular sudah tepat." },
+                    { text: "Arabic syntax", isCorrect: false, explanation: "Salah. Direct object sudah tepat." },
+                    { text: "than does him", isCorrect: true, explanation: "Benar! Pilihan C salah. Penggunaan pronoun di belakang di samping melarang inversi, penggunaan object pronoun 'him' juga keliru. Seharusnya urutan normal dengan subject pronoun: 'than he does'." },
+                    { text: "after completing", isCorrect: false, explanation: "Salah. Preposition + gerund sudah tepat." },
+                    { text: "the intensive course", isCorrect: false, explanation: "Salah. Noun phrase sudah tepat." }
+                ]
+            },
+
+            // --- BAGIAN 3: COMPLETE THE BLANK (8 SOAL) ---
+            {
+                questionNumber: 18,
+                type: "Complete the Blank",
+                category: "Verbal Inversion Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat perbandingan berikut dengan susunan inversi yang tepat:<br><br>Hasan speaks Javanese language better _____.",
+                answerOptions: [
+                    { text: "than does Alfa", isCorrect: true, explanation: "Benar! Kalimat utama verbal ('speaks') diinversi dengan auxiliary 'does' sebelum subjek 'Alfa'." },
+                    { text: "than is Alfa", isCorrect: false, explanation: "Salah. Predikat utama verbal, tidak boleh memakai to be 'is'." },
+                    { text: "than does he", isCorrect: false, explanation: "Salah. Subjek pronoun 'he' haram diinversi." },
+                    { text: "as does Alfa", isCorrect: false, explanation: "Salah. Pembanding derajat lebih (better) memakai 'than', bukan 'as'." },
+                    { text: "than Alfa is", isCorrect: false, explanation: "Salah. Verb agreement keliru (harus does)." }
+                ]
+            },
+            {
+                questionNumber: 19,
+                type: "Complete the Blank",
+                category: "Nominal Inversion Blank",
+                difficulty: "Mudah",
+                question: "Lengkapilah kalimat perbandingan berikut dengan susunan inversi yang tepat:<br><br>Buahlil is sweeter _____.",
+                answerOptions: [
+                    { text: "than does bolu ketan", isCorrect: false, explanation: "Salah. Predikat utama nominal 'is', pembanding tidak boleh memakai 'does'." },
+                    { text: "than is bolu ketan", isCorrect: true, explanation: "Benar! Nominal predikat ('is') diinversi dengan to be 'is' mendahului subjek 'bolu ketan'." },
+                    { text: "than is it", isCorrect: false, explanation: "Salah. Subjek pronoun 'it' haram diinversi." },
+                    { text: "as is bolu ketan", isCorrect: false, explanation: "Salah. Comparative 'sweeter' berpasangan dengan 'than'." },
+                    { text: "than bolu ketan does", isCorrect: false, explanation: "Salah. Verb agreement keliru." }
+                ]
+            },
+            {
+                questionNumber: 20,
+                type: "Complete the Blank",
+                category: "Equality Inversion Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat perbandingan setara berikut:<br><br>Naely was as curious about Comal city _____.",
+                answerOptions: [
+                    { text: "than were her friends", isCorrect: false, explanation: "Salah. Equality 'as curious' berpasangan dengan 'as', bukan 'than'." },
+                    { text: "as were her friends", isCorrect: true, explanation: "Benar! Equality comparison 'as' diinversi dengan 'were' mendahului plural subjek 'her friends'." },
+                    { text: "as did her friends", isCorrect: false, explanation: "Salah. Predikat utama 'was' (nominal), tidak boleh memakai 'did'." },
+                    { text: "as were they", isCorrect: false, explanation: "Salah. Pronoun 'they' haram diinversi." },
+                    { text: "than her friends were", isCorrect: false, explanation: "Salah. Konjungsi 'than' keliru untuk equality." }
+                ]
+            },
+            {
+                questionNumber: 21,
+                type: "Complete the Blank",
+                category: "Negative As Inversion Blank",
+                difficulty: "Sedang",
+                question: "Lengkapilah kalimat perbandingan negatif berikut:<br><br>Naely was not so curious about Comal city _____.",
+                answerOptions: [
+                    { text: "as did her friends", isCorrect: false, explanation: "Salah. Verb agreement keliru (harus were)." },
+                    { text: "than were her friends", isCorrect: false, explanation: "Salah. Pola 'not so' berpasangan dengan 'as'." },
+                    { text: "as were her friends", isCorrect: true, explanation: "Benar! Klausa negatif 'not so... as' diinversi dengan 'were' sebelum subjek 'her friends'." },
+                    { text: "as were she", isCorrect: false, explanation: "Salah. Pronoun dilarang diinversi dan 'were she' keliru secara number." },
+                    { text: "than her friends did", isCorrect: false, explanation: "Salah. Konjungsi dan auxiliary keduanya keliru." }
+                ]
+            },
+            {
+                questionNumber: 22,
+                type: "Complete the Blank",
+                category: "Pronoun Restriction Blank",
+                difficulty: "Sulit",
+                question: "Pilihlah bentuk susunan pembanding yang <strong>TEPAT</strong> untuk melengkapi kalimat berikut:<br><br>Prof. Ilham knows more about linguistics _____.",
+                answerOptions: [
+                    { text: "than does she", isCorrect: false, explanation: "Salah. Pronoun 'she' dilarang keras diinversi." },
+                    { text: "than she does", isCorrect: true, explanation: "Benar! Karena subjek pembanding berupa pronoun ('she'), urutan WAJIB normal (Subject + Auxiliary)." },
+                    { text: "than is she", isCorrect: false, explanation: "Salah. Pronoun diinversi dan verb agreement keliru." },
+                    { text: "than she is", isCorrect: false, explanation: "Salah. Verb agreement keliru (harus does)." },
+                    { text: "as does she", isCorrect: false, explanation: "Salah. Pronoun diinversi dan konjungsi keliru." }
+                ]
+            },
+            {
+                questionNumber: 23,
+                type: "Complete the Blank",
+                category: "TOEFL Distractor Blank 1",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat TOEFL Structure berikut:<br><br>The result of the first experiment was more accurate _____.",
+                answerOptions: [
+                    { text: "did the second one", isCorrect: false, explanation: "Salah. Predikat utama 'was' (nominal), tidak boleh diinversi dengan 'did'." },
+                    { text: "than did the second one", isCorrect: false, explanation: "Salah. Auxiliary 'did' tidak selaras dengan nominal 'was'." },
+                    { text: "than was the second one", isCorrect: true, explanation: "Benar! Penggunaan 'than was the second one' sempurna karena diinversi menggunakan 'was' yang selaras dengan predikat nominal utama." },
+                    { text: "than the second one does", isCorrect: false, explanation: "Salah. Auxiliary 'does' keliru." },
+                    { text: "as was the second one", isCorrect: false, explanation: "Salah. Comparative 'more' berpasangan dengan 'than'." }
+                ]
+            },
+            {
+                questionNumber: 24,
+                type: "Complete the Blank",
+                category: "Plural Auxiliary Comparison Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat perbandingan berikut:<br><br>The TOEFL students in PIBI class study grammar more diligently _____.",
+                answerOptions: [
+                    { text: "than does the students in other programs", isCorrect: false, explanation: "Salah. Subjek 'students' jamak, tidak boleh 'does'." },
+                    { text: "than do the students in other programs", isCorrect: true, explanation: "Benar! Auxiliary 'do' (plural present) diinversi sebelum plural noun subject 'the students'." },
+                    { text: "than are the students in other programs", isCorrect: false, explanation: "Salah. Kalimat utama verbal ('study'), tidak boleh memakai 'are'." },
+                    { text: "than do they", isCorrect: false, explanation: "Salah. Pronoun 'they' dilarang diinversi." },
+                    { text: "than is the students in other programs", isCorrect: false, explanation: "Salah. Auxiliary dan agreement keduanya keliru." }
+                ]
+            },
+            {
+                questionNumber: 25,
+                type: "Complete the Blank",
+                category: "Past Passive Comparison Blank",
+                difficulty: "Sulit",
+                question: "Lengkapilah kalimat perbandingan berikut:<br><br>The manuscripts written in the 19th century were more fragile _____.",
+                answerOptions: [
+                    { text: "than did those discovered recently", isCorrect: false, explanation: "Salah. Predikat utama nominal 'were', tidak boleh memakai 'did'." },
+                    { text: "than was those discovered recently", isCorrect: false, explanation: "Salah. Subjek 'those' bersifat plural, tidak boleh 'was'." },
+                    { text: "than were those discovered recently", isCorrect: true, explanation: "Benar! To be 'were' (past plural) selaras dengan predikat utama 'were' dan subjek pembanding jamak 'those'." },
+                    { text: "as were those discovered recently", isCorrect: false, explanation: "Salah. Comparative 'more fragile' berpasangan dengan 'than'." },
+                    { text: "than those discovered recently do", isCorrect: false, explanation: "Salah. Auxiliary 'do' keliru." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let score = 0;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionTextEl = document.getElementById('question-text');
+        const questionTypeTagEl = document.getElementById('question-type-tag');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const difficultyBadgeEl = document.getElementById('difficulty-badge');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationBoxEl = document.getElementById('explanation-box');
+        const explanationTextEl = document.getElementById('explanation-text');
+        
+        const currentQNumEl = document.getElementById('current-q-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreBadge = document.getElementById('score-badge');
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            scoreBadge.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            currentQNumEl.textContent = q.questionNumber;
+            progressBarEl.style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
+            questionTypeTagEl.textContent = q.type;
+            categoryBadgeEl.textContent = q.category;
+            
+            // Set Difficulty Badge Color
+            difficultyBadgeEl.textContent = q.difficulty;
+            if (q.difficulty === "Mudah") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
+            } else if (q.difficulty === "Sedang") {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            } else {
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-100 text-rose-800";
+            }
+
+            questionTextEl.innerHTML = q.question;
+            optionsContainerEl.innerHTML = '';
+            explanationBoxEl.classList.add('hidden');
+
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+
+            q.answerOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                
+                let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (opt.isCorrect) {
+                        baseClasses += "bg-emerald-50 border-emerald-300 text-emerald-900 font-medium";
+                    } else if (isSelected && !opt.isCorrect) {
+                        baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
+                    } else {
+                        baseClasses += "bg-white border-slate-200 text-slate-700 opacity-60";
+                    }
+                    btn.disabled = true;
+                } else {
+                    baseClasses += "bg-white border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700 cursor-pointer";
+                }
+
+                btn.className = baseClasses;
+                btn.innerHTML = `
+                    <span class="font-bold bg-slate-100 text-slate-700 w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs">${optionLetters[idx]}</span>
+                    <span class="mt-0.5">${opt.text}</span>
+                `;
+
+                if (userAnswers[currentQuestionIndex] === null) {
+                    btn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainerEl.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showExplanation();
+            }
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === questionsData.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const q = questionsData[currentQuestionIndex];
+            
+            if (q.answerOptions[optionIndex].isCorrect) {
+                score++;
+            }
+
+            loadQuestion();
+        }
+
+        function showExplanation() {
+            const q = questionsData[currentQuestionIndex];
+            let explanationHTML = "";
+            q.answerOptions.forEach((opt, idx) => {
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let badgeColor = opt.isCorrect ? "text-emerald-700 font-bold" : "text-slate-600";
+                explanationHTML += `<div class="p-1.5 rounded bg-white border border-slate-100"><span class="${badgeColor}">Pilihan ${optionLetters[idx]}:</span> ${opt.explanation}</div>`;
+            });
+            explanationTextEl.innerHTML = explanationHTML;
+            explanationBoxEl.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = `${score} / 25`;
+            finalScoreDisplay.textContent = score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            score = 0;
+            resultScreen.classList.add('hidden');
+            scoreBadge.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
