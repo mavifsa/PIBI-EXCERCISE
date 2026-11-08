@@ -36,14 +36,13 @@
             <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">🔗</div>
             <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulasi TOEFL Structure: Skill 6</h2>
             <p class="text-slate-600 max-w-xl mx-auto mb-6">
-                Uji pemahaman Anda tentang aturan <em>FANBOYS (For, And, Nor, But, Or, Yet, So)</em>, kesetaraan bentuk (<em>Parallel Structure</em>), aturan koma antar klausa, serta struktur inversi setelah konjungsi <em>nor</em>.
+                Uji pemahaman Anda tentang coorditing conjunction <em>FANBOYS</em> dan Parallel Structure.
             </p>
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-8 text-left text-sm text-slate-700">
                 <p class="font-semibold text-slate-900 mb-2">Komposisi Soal (Total 20 Soal):</p>
                 <ul class="space-y-1 list-disc list-inside">
                     <li>10 Soal Error Analysis / Structure Error</li>
                     <li>10 Soal Fill in the Blank</li>
-                    <li>Pilihan Jawaban: A, B, C, D, E</li>
                 </ul>
             </div>
             <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-sm">
@@ -129,7 +128,6 @@
     <script>
         const questionsData = [
             // --- SECTION 1: ERROR ANALYSIS (10 SOAL) ---
-            // Mudah (5)
             {
                 questionNumber: 1,
                 type: "Error Analysis",
@@ -138,9 +136,9 @@
                 answerOptions: [
                     { text: "to listen", isCorrect: false, rationale: "Bentuk To-Infinitive pertama sudah tepat." },
                     { text: "or", isCorrect: false, rationale: "Coordinating conjunction 'or' menghubungkan dua pilihan." },
-                    { text: "singing", isCorrect: true, rationale: "Pilihan C salah. Konjungsi 'or' memerlukan struktur paralel. Karena kata sebelumnya adalah To-Infinitive 'to listen', maka kata setelahnya harus berbentuk infinitive 'sing' (atau 'to sing'), bukan gerund 'singing'." },
                     { text: "the stage", isCorrect: false, rationale: "Noun phrase lokasi sudah tepat." },
-                    { text: "with his friends", isCorrect: false, rationale: "Prepositional phrase pelengkap sudah tepat." }
+                    { text: "with his friends", isCorrect: false, rationale: "Prepositional phrase pelengkap sudah tepat." },
+                    { text: "singing", isCorrect: true, rationale: "Benar! Pilihan E salah. Konjungsi 'or' memerlukan struktur paralel. Karena kata sebelumnya adalah To-Infinitive 'to listen', maka kata setelahnya harus berbentuk infinitive 'sing' (atau 'to sing'), bukan gerund 'singing'." }
                 ]
             },
             {
@@ -149,11 +147,11 @@
                 difficulty: "Mudah",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>Motorola is <u>not familiar</u> (A) anymore, <u>nor</u> (B) <u>Siemens is</u> (C) <u>popular</u> (D) among young buyers (E).",
                 answerOptions: [
-                    { text: "not familiar", isCorrect: false, rationale: "Adjective phrase setelah to be 'is' sudah tepat." },
-                    { text: "nor", isCorrect: false, rationale: "Coordinating conjunction 'nor' menghubungkan dua kalimat negatif." },
-                    { text: "Siemens is", isCorrect: true, rationale: "Pilihan C salah. Setelah kata hubung 'nor' yang menghubungkan klausa, terjadi pola inversi (Auxiliary/Verb sebelum Subjek). Maka susunan yang benar adalah 'nor is Siemens', bukan 'nor Siemens is'." },
+                    { text: "not familiar", isCorrect: false, rationale: "Adjective phrase sudah tepat." },
+                    { text: "nor", isCorrect: false, rationale: "Conjunction sudah tepat." },
+                    { text: "Siemens is", isCorrect: true, rationale: "Benar! Pilihan C salah. Setelah kata hubung 'nor' yang menghubungkan klausa, terjadi pola inversi (Auxiliary/Verb sebelum Subjek). Maka susunan yang benar adalah 'nor is Siemens'." },
                     { text: "popular", isCorrect: false, rationale: "Adjective complement sudah tepat." },
-                    { text: "among young buyers", isCorrect: false, rationale: "Prepositional phrase penunjuk kelompok sudah tepat." }
+                    { text: "among young buyers", isCorrect: false, rationale: "Prepositional phrase sudah tepat." }
                 ]
             },
             {
@@ -162,11 +160,11 @@
                 difficulty: "Mudah",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>My father, <u>Luna</u> (A) <u>and I</u> (B) <u>goes</u> (C) <u>to Panorama 25</u> (D) every weekend (E).",
                 answerOptions: [
-                    { text: "Luna", isCorrect: false, rationale: "Elemen noun kedua dalam deretan tiga subjek sudah tepat." },
-                    { text: "and I", isCorrect: false, rationale: "Pronoun subjek setelah koma sebelum 'and' sudah tepat." },
-                    { text: "goes", isCorrect: true, rationale: "Pilihan C salah. Konjungsi 'and' menggabungkan tiga subjek (My father, Luna, and I) sehingga menjadi jamak (plural). Kata kerja harus menggunakan 'go', bukan 'goes'." },
-                    { text: "to Panorama 25", isCorrect: false, rationale: "Prepositional phrase arah tujuan sudah tepat." },
-                    { text: "every weekend", isCorrect: false, rationale: "Keterangan rutin sudah tepat." }
+                    { text: "Luna", isCorrect: false, rationale: "Elemen noun kedua sudah tepat." },
+                    { text: "and I", isCorrect: false, rationale: "Pronoun subjek sudah tepat." },
+                    { text: "goes", isCorrect: true, rationale: "Benar! Pilihan C salah. Konjungsi 'and' menggabungkan tiga subjek (My father, Luna, and I) sehingga bernilai jamak (plural). Kata kerja harus menggunakan 'go'." },
+                    { text: "to Panorama 25", isCorrect: false, rationale: "Prepositional phrase sudah tepat." },
+                    { text: "every weekend", isCorrect: false, rationale: "Keterangan sudah tepat." }
                 ]
             },
             {
@@ -175,11 +173,11 @@
                 difficulty: "Mudah",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The candidate <u>is</u> (A) intelligent, <u>hardworking</u> (B), <u>and</u> (C) <u>has honesty</u> (D) in every task (E).",
                 answerOptions: [
-                    { text: "is", isCorrect: false, rationale: "Linking verb utama sudah tepat." },
+                    { text: "is", isCorrect: false, rationale: "Linking verb sudah tepat." },
                     { text: "hardworking", isCorrect: false, rationale: "Adjective seri kedua sudah tepat." },
-                    { text: "and", isCorrect: false, rationale: "Coordinating conjunction penyambung seri paralel sudah tepat." },
-                    { text: "has honesty", isCorrect: true, rationale: "Pilihan D salah. Elemen pertama ('intelligent') dan kedua ('hardworking') adalah Adjective. Untuk menjaga parallel structure, kata ketiga harus berupa Adjective yaitu 'honest', bukan klausa verb 'has honesty'." },
-                    { text: "in every task", isCorrect: false, rationale: "Prepositional phrase penjelas sudah tepat." }
+                    { text: "and", isCorrect: false, rationale: "Coordinating conjunction sudah tepat." },
+                    { text: "in every task", isCorrect: false, rationale: "Prepositional phrase sudah tepat." },
+                    { text: "has honesty", isCorrect: true, rationale: "Benar! Pilihan E salah. Elemen pertama dan kedua berupa Adjective. Untuk menjaga parallel structure, kata ketiga harus berupa Adjective yaitu 'honest', bukan klausa verb 'has honesty'." }
                 ]
             },
             {
@@ -188,25 +186,24 @@
                 difficulty: "Mudah",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>She <u>enjoys</u> (A) <u>reading novels</u> (B), <u>writing poems</u> (C), and <u>to paint</u> (D) landscapes (E).",
                 answerOptions: [
-                    { text: "enjoys", isCorrect: false, rationale: "Verb utama diikuti gerund sudah tepat." },
-                    { text: "reading novels", isCorrect: false, rationale: "Gerund phrase pertama sebagai objek sudah tepat." },
-                    { text: "writing poems", isCorrect: false, rationale: "Gerund phrase kedua sebagai objek paralel sudah tepat." },
-                    { text: "to paint", isCorrect: true, rationale: "Pilihan D salah. Seri objek dari 'enjoys' menggunakan Gerund Phrase ('reading...', 'writing...'). Berdasarkan aturan parallel structure, elemen ketiga harus berupa Gerund Phrase 'painting landscapes', bukan infinitive 'to paint'." },
-                    { text: "landscapes", isCorrect: false, rationale: "Noun objek dari lukisan sudah tepat." }
+                    { text: "enjoys", isCorrect: false, rationale: "Verb utama sudah tepat." },
+                    { text: "reading novels", isCorrect: false, rationale: "Gerund phrase pertama sudah tepat." },
+                    { text: "writing poems", isCorrect: false, rationale: "Gerund phrase kedua sudah tepat." },
+                    { text: "landscapes", isCorrect: false, rationale: "Noun objek sudah tepat." },
+                    { text: "to paint", isCorrect: true, rationale: "Benar! Pilihan E salah. Seri objek dari 'enjoys' menggunakan Gerund Phrase, maka elemen ketiga harus berupa Gerund Phrase 'painting landscapes', bukan infinitive 'to paint'." }
                 ]
             },
-            // Sedang (4)
             {
                 questionNumber: 6,
                 type: "Error Analysis",
                 difficulty: "Sedang",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The research team <u>gathered</u> (A) data, <u>analyzed</u> (B) the results, <u>and</u> (C) <u>they written</u> (D) the final report (E).",
                 answerOptions: [
-                    { text: "gathered", isCorrect: false, rationale: "Verb V2 pertama dalam deretan paralel sudah tepat." },
-                    { text: "analyzed", isCorrect: false, rationale: "Verb V2 kedua dalam deretan paralel sudah tepat." },
-                    { text: "and", isCorrect: false, rationale: "Conjunction penutup deretan paralel sudah tepat." },
-                    { text: "they written", isCorrect: true, rationale: "Pilihan D salah. Seri ini menghubungkan predikat V2 dari subjek tunggal 'The research team' ('gathered...', 'analyzed...', 'and...'). Penambahan subjek 'they' dan V3 'written' merusak paralelisme. Harusnya langsung 'wrote the final report'." },
-                    { text: "the final report", isCorrect: false, rationale: "Noun phrase objek sudah tepat." }
+                    { text: "gathered", isCorrect: false, rationale: "Verb V2 pertama sudah tepat." },
+                    { text: "analyzed", isCorrect: false, rationale: "Verb V2 kedua sudah tepat." },
+                    { text: "and", isCorrect: false, rationale: "Conjunction sudah tepat." },
+                    { text: "the final report", isCorrect: false, rationale: "Noun phrase objek sudah tepat." },
+                    { text: "they written", isCorrect: true, rationale: "Benar! Pilihan E salah. Seri ini menghubungkan predikat V2 dari subjek tunggal 'The research team'. Penambahan subjek 'they' dan V3 'written' merusak paralelisme." }
                 ]
             },
             {
@@ -215,11 +212,11 @@
                 difficulty: "Sedang",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>He <u>did not</u> (A) finish the assignment, <u>for</u> (B) he <u>was feeling</u> (C) sick, <u>nor</u> (D) <u>he asked</u> (E) for an extension.",
                 answerOptions: [
-                    { text: "did not", isCorrect: false, rationale: "Auxiliary negatif past tense sudah tepat." },
-                    { text: "for", isCorrect: false, rationale: "Conjunction 'for' (karena) menghubungkan dua klausa sebab-akibat sudah tepat." },
-                    { text: "was feeling", isCorrect: false, rationale: "Past continuous verb sudah tepat." },
-                    { text: "nor", isCorrect: false, rationale: "Conjunction 'nor' menghubungkan klausa negatif tambahan sudah tepat." },
-                    { text: "he asked", isCorrect: true, rationale: "Pilihan E salah. Klausa yang diawali dengan 'nor' wajib mengalami inversi (Auxiliary sebelum Subjek). Karena tenses-nya Simple Past, bentuk yang benar adalah 'nor did he ask'." }
+                    { text: "did not", isCorrect: false, rationale: "Auxiliary negatif sudah tepat." },
+                    { text: "for", isCorrect: false, rationale: "Conjunction sebab-akibat sudah tepat." },
+                    { text: "was feeling", isCorrect: false, rationale: "Past continuous sudah tepat." },
+                    { text: "nor", isCorrect: false, rationale: "Conjunction sudah tepat." },
+                    { text: "he asked", isCorrect: true, rationale: "Benar! Pilihan E salah. Klausa yang diawali dengan 'nor' wajib mengalami inversi. Bentuk yang benar adalah 'nor did he ask'." }
                 ]
             },
             {
@@ -228,11 +225,11 @@
                 difficulty: "Sedang",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The new policy <u>aims</u> (A) to reduce costs, <u>improve efficiency</u> (B), <u>and</u> (C) <u>enhancing</u> (D) customer satisfaction (E).",
                 answerOptions: [
-                    { text: "aims", isCorrect: false, rationale: "Verb singular sesuai subjek sudah tepat." },
-                    { text: "improve efficiency", isCorrect: false, rationale: "Bare infinitive seri kedua (setelah 'to') sudah tepat." },
-                    { text: "and", isCorrect: false, rationale: "Conjunction penutup paralelisme sudah tepat." },
-                    { text: "enhancing", isCorrect: true, rationale: "Pilihan D salah. Tiga tindakan di bawah infinitive 'to' harus paralel: 'reduce costs', 'improve efficiency', dan 'enhance customer satisfaction'. V-ing 'enhancing' merusak struktur paralel." },
-                    { text: "customer satisfaction", isCorrect: false, rationale: "Noun phrase objek dari enhance sudah tepat." }
+                    { text: "aims", isCorrect: false, rationale: "Verb singular sudah tepat." },
+                    { text: "improve efficiency", isCorrect: false, rationale: "Bare infinitive sudah tepat." },
+                    { text: "and", isCorrect: false, rationale: "Conjunction sudah tepat." },
+                    { text: "customer satisfaction", isCorrect: false, rationale: "Noun phrase sudah tepat." },
+                    { text: "enhancing", isCorrect: true, rationale: "Benar! Pilihan E salah. Tiga tindakan setelah infinitive 'to' harus paralel: 'reduce', 'improve', dan 'enhance'. V-ing 'enhancing' merusak struktur paralel." }
                 ]
             },
             {
@@ -241,41 +238,39 @@
                 difficulty: "Sedang",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>She <u>did not</u> (A) receive the email, <u>so</u> (B) <u>did she</u> (C) check <u>her spam folder</u> (D) <u>this morning</u> (E).",
                 answerOptions: [
-                    { text: "did not", isCorrect: false, rationale: "Auxiliary negatif past tense sudah tepat." },
-                    { text: "so", isCorrect: true, rationale: "Pilihan B salah. Kalimat ini menyampaikan dua penolakan/negasi berturut-turut. Konjungsi yang memerlukan inversi 'did she check' untuk menyatakan 'juga tidak' adalah 'nor', bukan 'so'." },
-                    { text: "did she", isCorrect: false, rationale: "Pola inversi yang cocok untuk konjungsi negatif 'nor'." },
-                    { text: "her spam folder", isCorrect: false, rationale: "Noun phrase objek sudah tepat." },
-                    { text: "this morning", isCorrect: false, rationale: "Keterangan waktu sudah tepat." }
+                    { text: "did not", isCorrect: false, rationale: "Auxiliary sudah tepat." },
+                    { text: "did she", isCorrect: false, rationale: "Inversi sudah tepat." },
+                    { text: "her spam folder", isCorrect: false, rationale: "Noun phrase sudah tepat." },
+                    { text: "this morning", isCorrect: false, rationale: "Keterangan waktu sudah tepat." },
+                    { text: "so", isCorrect: true, rationale: "Benar! Pilihan E salah. Kalimat ini menyampaikan dua penolakan berturut-turut. Konjungsi yang memerlukan inversi untuk menyatakan 'juga tidak' adalah 'nor', bukan 'so'." }
                 ]
             },
-            // Sulit (1)
             {
                 questionNumber: 10,
                 type: "Error Analysis",
                 difficulty: "Sulit",
                 question: "Pilihlah bagian kalimat yang memiliki kesalahan tata bahasa:<br><br>The committee <u>members</u> (A) <u>could not agree</u> (B) on the budget proposal, <u>yet</u> (C) <u>did they decide</u> (D) to adjourn <u>the meeting</u> (E).",
                 answerOptions: [
-                    { text: "members", isCorrect: false, rationale: "Noun jamak sebagai subjek sudah tepat." },
-                    { text: "could not agree", isCorrect: false, rationale: "Modal verb negatif sudah tepat." },
-                    { text: "yet", isCorrect: false, rationale: "Conjunction 'yet' (namun) sudah tepat." },
-                    { text: "did they decide", isCorrect: true, rationale: "Pilihan D salah. Konjungsi 'yet' tidak memicu inversi pada klausa kedua (inversi hanya dipicu oleh 'nor'). Susunan yang benar adalah klausa biasa 'yet they decided'." },
-                    { text: "the meeting", isCorrect: false, rationale: "Noun phrase objek dari adjourn sudah tepat." }
+                    { text: "members", isCorrect: false, rationale: "Noun jamak sudah tepat." },
+                    { text: "could not agree", isCorrect: false, rationale: "Modal verb sudah tepat." },
+                    { text: "yet", isCorrect: false, rationale: "Conjunction sudah tepat." },
+                    { text: "the meeting", isCorrect: false, rationale: "Noun phrase objek sudah tepat." },
+                    { text: "did they decide", isCorrect: true, rationale: "Benar! Pilihan E salah. Konjungsi 'yet' tidak memicu inversi pada klausa kedua (inversi hanya dipicu oleh 'nor'). Susunan yang benar adalah 'yet they decided'." }
                 ]
             },
 
             // --- SECTION 2: FILL IN THE BLANK (10 SOAL) ---
-            // Mudah (5)
             {
                 questionNumber: 11,
                 type: "Fill in the Blank",
                 difficulty: "Mudah",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>I am writing the letter, _____ you will send it to her.",
                 answerOptions: [
-                    { text: "and", isCorrect: true, rationale: "Benar! 'and' adalah FANBOYS yang tepat menghubungkan dua klausa independen berurutan dengan tanda koma sebelumnya." },
-                    { text: "but for", isCorrect: false, rationale: "Salah. Kombinasi kata tidak baku." },
-                    { text: "or nor", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." },
-                    { text: "so that", isCorrect: false, rationale: "Salah. 'so that' adalah subordinating conjunction." },
-                    { text: "yet nor", isCorrect: false, rationale: "Salah. Penumpukan dua konjungsi." }
+                    { text: "but for", isCorrect: false, rationale: "Salah." },
+                    { text: "or nor", isCorrect: false, rationale: "Salah." },
+                    { text: "and", isCorrect: true, rationale: "Benar! 'and' adalah FANBOYS yang tepat menghubungkan dua klausa independen berurutan." },
+                    { text: "so that", isCorrect: false, rationale: "Salah." },
+                    { text: "yet nor", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -284,11 +279,11 @@
                 difficulty: "Mudah",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The candidate spoke clearly, persuasively, _____ during the interview.",
                 answerOptions: [
-                    { text: "and confidently", isCorrect: true, rationale: "Benar! Menurut aturan parallel structure, deretan tiga Adverb harus setara: 'clearly' (adverb), 'persuasively' (adverb), 'and confidently' (adverb)." },
-                    { text: "and with confidence", isCorrect: false, rationale: "Salah. Prepositional phrase merusak paralelisme tiga adverb tunggal." },
-                    { text: "and confident", isCorrect: false, rationale: "Salah. 'confident' adalah Adjective, bukan Adverb." },
-                    { text: "and showing confidence", isCorrect: false, rationale: "Salah. Participle phrase merusak paralelisme." },
-                    { text: "and in a confident manner", isCorrect: false, rationale: "Salah. Frasa terlalu panjang dan tidak sejajar." }
+                    { text: "and with confidence", isCorrect: false, rationale: "Salah." },
+                    { text: "and confidently", isCorrect: true, rationale: "Benar! Menurut parallel structure, deretan tiga Adverb harus setara: 'clearly', 'persuasively', 'and confidently'." },
+                    { text: "and confident", isCorrect: false, rationale: "Salah." },
+                    { text: "and showing confidence", isCorrect: false, rationale: "Salah." },
+                    { text: "and in a confident manner", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -297,11 +292,11 @@
                 difficulty: "Mudah",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>Motorola is not familiar anymore, _____ Siemens.",
                 answerOptions: [
-                    { text: "nor is", isCorrect: true, rationale: "Benar! Konjungsi 'nor' yang menghubungkan dua klausa negatif membutuhkan struktur inversi (Auxiliary + Subjek), yaitu 'nor is Siemens'." },
-                    { text: "nor Siemens is", isCorrect: false, rationale: "Salah. Tidak mengalami pola inversi." },
-                    { text: "or is", isCorrect: false, rationale: "Salah. 'or' tidak memicu makna negatif ganda dan inversi." },
-                    { text: "and Siemens is not", isCorrect: false, rationale: "Salah. Kurang koma dan struktur 'nor' lebih tepat secara ringkas." },
-                    { text: "so is", isCorrect: false, rationale: "Salah. 'so is' digunakan untuk kalimat positif (juga demikian)." }
+                    { text: "nor Siemens is", isCorrect: false, rationale: "Salah." },
+                    { text: "or is", isCorrect: false, rationale: "Salah." },
+                    { text: "and Siemens is not", isCorrect: false, rationale: "Salah." },
+                    { text: "nor is", isCorrect: true, rationale: "Benar! Konjungsi 'nor' yang menghubungkan dua klausa negatif membutuhkan struktur inversi 'nor is Siemens'." },
+                    { text: "so is", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -310,11 +305,11 @@
                 difficulty: "Mudah",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>He was waving his arms and _____ at us from across the street.",
                 answerOptions: [
-                    { text: "shouting", isCorrect: true, rationale: "Benar! Bentuk paralel setelah 'and' untuk 'was waving' adalah '(was) shouting' di mana auxiliary 'was' dapat ditiadakan." },
-                    { text: "shouted", isCorrect: false, rationale: "Salah. V2 tidak paralel dengan V-ing ('waving')." },
-                    { text: "to shout", isCorrect: false, rationale: "Salah. Infinitive tidak paralel dengan V-ing." },
-                    { text: "he shouts", isCorrect: false, rationale: "Salah. Klausa baru merusak paralelisme predikat terbagi." },
-                    { text: "was shout", isCorrect: false, rationale: "Salah. Struktur grammar tidak valid." }
+                    { text: "shouted", isCorrect: false, rationale: "Salah." },
+                    { text: "shouting", isCorrect: true, rationale: "Benar! Bentuk paralel setelah 'and' untuk 'was waving' adalah '(was) shouting'." },
+                    { text: "to shout", isCorrect: false, rationale: "Salah." },
+                    { text: "he shouts", isCorrect: false, rationale: "Salah." },
+                    { text: "was shout", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -323,25 +318,24 @@
                 difficulty: "Mudah",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>She studied diligently for the exam, _____ she passed with distinction.",
                 answerOptions: [
-                    { text: "so", isCorrect: true, rationale: "Benar! 'so' adalah FANBOYS yang menyatakan hubungan hasil/akibat antara klausa pertama dan kedua." },
-                    { text: "for", isCorrect: false, rationale: "Salah. 'for' menyatakan sebab/alasan (karena)." },
-                    { text: "but", isCorrect: false, rationale: "Salah. 'but' menyatakan pertentangan." },
-                    { text: "or", isCorrect: false, rationale: "Salah. 'or' menyatakan pilihan." },
-                    { text: "nor", isCorrect: false, rationale: "Salah. 'nor' menyatakan penolakan ganda." }
+                    { text: "for", isCorrect: false, rationale: "Salah." },
+                    { text: "but", isCorrect: false, rationale: "Salah." },
+                    { text: "or", isCorrect: false, rationale: "Salah." },
+                    { text: "nor", isCorrect: false, rationale: "Salah." },
+                    { text: "so", isCorrect: true, rationale: "Benar! 'so' adalah FANBOYS yang menyatakan hubungan hasil/akibat." }
                 ]
             },
-            // Sedang (4)
             {
                 questionNumber: 16,
                 type: "Fill in the Blank",
                 difficulty: "Sedang",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The new law is designed to protect consumers, promote fair competition, _____ in the market.",
                 answerOptions: [
+                    { text: "and ensuring transparency", isCorrect: false, rationale: "Salah." },
                     { text: "and ensure transparency", isCorrect: true, rationale: "Benar! Tiga klausa kata kerja utama harus sejajar dalam bentuk Bare Verb: 'protect...', 'promote...', 'and ensure...'." },
-                    { text: "and ensuring transparency", isCorrect: false, rationale: "Salah. Gerund 'ensuring' tidak sejajar dengan bare verb 'protect' dan 'promote'." },
-                    { text: "and transparency is ensured", isCorrect: false, rationale: "Salah. Klausa pasif merusak paralelisme seri kata kerja aktif." },
-                    { text: "and to ensuring transparency", isCorrect: false, rationale: "Salah. 'to ensuring' ungrammatikal." },
-                    { text: "and for transparency", isCorrect: false, rationale: "Salah. Prepositional phrase tidak sejajar dengan seri verb." }
+                    { text: "and transparency is ensured", isCorrect: false, rationale: "Salah." },
+                    { text: "and to ensuring transparency", isCorrect: false, rationale: "Salah." },
+                    { text: "and for transparency", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -350,11 +344,11 @@
                 difficulty: "Sedang",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The experiment was not only expensive _____ required months of preparation.",
                 answerOptions: [
-                    { text: "but also", isCorrect: true, rationale: "Benar! Pasangan correlative conjunction yang tepat untuk 'not only' adalah 'but also'." },
-                    { text: "and also", isCorrect: false, rationale: "Salah. Bukan pasangan baku dari 'not only'." },
-                    { text: "or even", isCorrect: false, rationale: "Salah. Bukan pasangan baku." },
-                    { text: "yet also", isCorrect: false, rationale: "Salah. Kombinasi tidak baku." },
-                    { text: "so that", isCorrect: false, rationale: "Salah. Tidak berpasangan dengan 'not only'." }
+                    { text: "and also", isCorrect: false, rationale: "Salah." },
+                    { text: "or even", isCorrect: false, rationale: "Salah." },
+                    { text: "yet also", isCorrect: false, rationale: "Salah." },
+                    { text: "so that", isCorrect: false, rationale: "Salah." },
+                    { text: "but also", isCorrect: true, rationale: "Benar! Pasangan correlative conjunction yang tepat untuk 'not only' adalah 'but also'." }
                 ]
             },
             {
@@ -363,11 +357,11 @@
                 difficulty: "Sedang",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The research proposal was thorough and well-documented, _____ the committee requested additional data before approval.",
                 answerOptions: [
-                    { text: "yet", isCorrect: true, rationale: "Benar! FANBOYS 'yet' (namun/meskipun demikian) tepat menunjukkan hubungan kontras antara proposal yang bagus dengan tindakan komite yang meminta data tambahan." },
-                    { text: "so", isCorrect: false, rationale: "Salah. 'so' menunjukkan hasil yang logis (kontras tidak sesuai)." },
-                    { text: "for", isCorrect: false, rationale: "Salah. 'for' menunjukkan alasan." },
-                    { text: "and", isCorrect: false, rationale: "Salah. 'and' kurang kuat mengekspresikan pertentangan." },
-                    { text: "nor", isCorrect: false, rationale: "Salah. Klausa pertama tidak bersifat negatif." }
+                    { text: "so", isCorrect: false, rationale: "Salah." },
+                    { text: "for", isCorrect: false, rationale: "Salah." },
+                    { text: "and", isCorrect: false, rationale: "Salah." },
+                    { text: "yet", isCorrect: true, rationale: "Benar! FANBOYS 'yet' tepat menunjukkan hubungan kontras." },
+                    { text: "nor", isCorrect: false, rationale: "Salah." }
                 ]
             },
             {
@@ -376,25 +370,24 @@
                 difficulty: "Sedang",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>The applicant did not meet the minimum language requirements, _____ did he possess the necessary work experience.",
                 answerOptions: [
-                    { text: "nor", isCorrect: true, rationale: "Benar! 'nor' digunakan untuk menggabungkan dua ide negatif dan diikuti oleh struktur kalimat ter-inversi ('did he possess')." },
-                    { text: "so", isCorrect: false, rationale: "Salah. 'so' tidak digunakan untuk penolakan ganda ter-inversi." },
-                    { text: "for", isCorrect: false, rationale: "Salah. 'for' berarti karena." },
-                    { text: "but", isCorrect: false, rationale: "Salah. 'but' tidak memicu inversi seperti 'nor'." },
-                    { text: "or", isCorrect: false, rationale: "Salah. Tanpa 'neither', 'or' tidak memicu inversi di klausa kedua." }
+                    { text: "so", isCorrect: false, rationale: "Salah." },
+                    { text: "for", isCorrect: false, rationale: "Salah." },
+                    { text: "but", isCorrect: false, rationale: "Salah." },
+                    { text: "or", isCorrect: false, rationale: "Salah." },
+                    { text: "nor", isCorrect: true, rationale: "Benar! 'nor' digunakan untuk menggabungkan dua ide negatif dan diikuti oleh struktur kalimat ter-inversi." }
                 ]
             },
-            // Sulit (1)
             {
                 questionNumber: 20,
                 type: "Fill in the Blank",
                 difficulty: "Sulit",
                 question: "Lengkapilah bagian kosong pada kalimat berikut:<br><br>Neither the principal investigator nor the research assistants _____ willing to compromise on the safety protocols.",
                 answerOptions: [
-                    { text: "were", isCorrect: true, rationale: "Benar! Pada struktur 'neither... nor...', kata kerja berkesesuaian dengan subjek yang paling dekat. Subjek terdekat adalah 'the research assistants' (plural), maka kata kerja yang tepat adalah 'were'." },
-                    { text: "was", isCorrect: false, rationale: "Salah. 'was' tunggal tidak sesuai dengan subjek terdekat yang jamak ('assistants')." },
-                    { text: "is", isCorrect: false, rationale: "Salah. Present tense singular tidak sesuai agreement subjek jamak terdekat." },
-                    { text: "are not", isCorrect: false, rationale: "Salah. Redundansi kata negatif 'not' setelah 'neither... nor'." },
-                    { text: "be", isCorrect: false, rationale: "Salah. Bare verb ungrammatikal." }
+                    { text: "was", isCorrect: false, rationale: "Salah." },
+                    { text: "is", isCorrect: false, rationale: "Salah." },
+                    { text: "are not", isCorrect: false, rationale: "Salah." },
+                    { text: "be", isCorrect: false, rationale: "Salah." },
+                    { text: "were", isCorrect: true, rationale: "Benar! Pada struktur 'neither... nor...', kata kerja berkesesuaian dengan subjek terdekat 'the research assistants' (plural)." }
                 ]
             }
         ];
@@ -440,7 +433,7 @@
             // Set Difficulty Badge Color
             difficultyBadgeEl.textContent = q.difficulty;
             if (q.difficulty === "Mudah") {
-                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
+                difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-blue-100 text-blue-800";
             } else if (q.difficulty === "Sedang") {
                 difficultyBadgeEl.className = "ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
             } else {
@@ -460,7 +453,7 @@
                 let baseClasses = "w-full text-left p-4 rounded-xl border transition flex items-start gap-3 text-sm md:text-base ";
                 if (userAnswers[currentQuestionIndex] !== null) {
                     if (opt.isCorrect) {
-                        baseClasses += "bg-emerald-50 border-emerald-300 text-emerald-900 font-medium";
+                        baseClasses += "bg-blue-50 border-blue-300 text-blue-900 font-medium";
                     } else if (isSelected && !opt.isCorrect) {
                         baseClasses += "bg-rose-50 border-rose-300 text-rose-900";
                     } else {
@@ -505,8 +498,10 @@
 
         function showExplanation() {
             const q = questionsData[currentQuestionIndex];
-            const selectedOpt = q.answerOptions[userAnswers[currentQuestionIndex]];
-            explanationTextEl.innerHTML = selectedOpt.rationale;
+            const correctOptIdx = q.answerOptions.findIndex(opt => opt.isCorrect);
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+            
+            explanationTextEl.innerHTML = `<strong>Kunci Jawaban (${optionLetters[correctOptIdx]}):</strong> ${q.answerOptions[correctOptIdx].rationale}`;
             explanationBoxEl.classList.remove('hidden');
         }
 
